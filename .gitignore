@@ -1,0 +1,9 @@
+.gradle
+.gradletasknamecache
+build
+
+#intellij idea files
+.idea
+
+#emacs files
+*~
