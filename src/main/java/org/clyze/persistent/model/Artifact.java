@@ -107,4 +107,8 @@ public class Artifact extends ItemImpl {
 	public String getParentArtifactId() {
 		return parentArtifactId;
 	}
+
+	public long getSizeInBytes() {
+		return sizeInBytes;
+	}
 }
