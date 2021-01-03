@@ -2,16 +2,19 @@ package org.clyze.persistent.model;
 
 import java.util.Map;
 
+/**
+ * A heap allocation site ("new").
+ */
 public class HeapAllocation extends SymbolWithDoopId {
 
 	private String allocatedTypeDoopId;
 
 	private String allocatingMethodDoopId;	
 
-	/** is inside instance initializer block */
+	/** If true, the allocation is inside an instance initializer block. */
 	private boolean inIIB = false;
 
-	/** is an array type */
+	/** If true, the allocation is an array type. */
 	private boolean isArray = false;
 
     public HeapAllocation() {}
@@ -66,6 +69,7 @@ public class HeapAllocation extends SymbolWithDoopId {
         isArray = array;
     }
 
+    @Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
 		map.put("allocatedTypeDoopId", this.allocatedTypeDoopId);
@@ -74,6 +78,7 @@ public class HeapAllocation extends SymbolWithDoopId {
 		map.put("isArray", this.isArray);
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
 		this.allocatedTypeDoopId    = (String) map.get("allocatedTypeDoopId");

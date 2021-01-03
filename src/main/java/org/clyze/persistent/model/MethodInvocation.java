@@ -2,13 +2,16 @@ package org.clyze.persistent.model;
 
 import java.util.Map;
 
+/**
+ * A method invocation site (in the body of another method).
+ */
 public class MethodInvocation extends SymbolWithDoopId {
 
 	private String name;
 
 	private String invokingMethodDoopId;	
 
-	/** is inside instance initializer block */
+	/** If true, this is inside an instance initializer block. */
 	private boolean inIIB = false;
 
     public MethodInvocation() {}

@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 import com.google.gson.Gson;
 
+/** The top-level implementation of items in the model. */
 public abstract class ItemImpl implements Item {
 
 	protected String id; //The unique identifier of the item (it is optional and not serialized)

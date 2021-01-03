@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Symbol used for classes, interfaces and enums
+ * Symbol used for classes, interfaces, and enum types.
  */
 public class Class extends AnnotateableSymbolWithDoopId {
 

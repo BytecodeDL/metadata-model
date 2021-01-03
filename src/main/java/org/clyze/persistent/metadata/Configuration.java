@@ -12,9 +12,13 @@ public class Configuration {
     /** The directory to store the json output files */
     private File outDir = null;
 
-    /** The encoding of the input source code files; changed by "Main" if "-encoding" argument was provided */
+    /** The encoding of the input source code files; changed by "Main" if "-encoding" argument was provided. */
     public static String encoding = "UTF-8";
 
+    /**
+     * Create a configuration object.
+     * @param printer   the output printer to use
+     */
     public Configuration(Printer printer) {
         this.printer = printer;
     }

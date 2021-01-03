@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * This class represents a string constant; i.e. a pair of a static final String
+ * This class represents a string constant such as a pair of a static final String
  * field and the string literal initializing it.
  *
- * Why we need this?
+ * Why do we need this?
  * Javac chooses to inline some cases of static final fields. Such fields do not
  * appear in the bytecode and therefore are not analyzed. What this class does
  * is to provide a "possible value" for such fields.

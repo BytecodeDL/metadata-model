@@ -1,5 +1,6 @@
 package org.clyze.persistent.model;
 
+/** The model of "invokedynamic" instructions. */
 public class DynamicMethodInvocation {
     /**
      * Creates an instruction ID for an invokedynamic that calls a

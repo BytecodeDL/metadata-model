@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * A symbol element that exists in source code
+ * A symbol element that exists in source code.
  */
 public abstract class Symbol extends Element {
 
@@ -16,6 +16,7 @@ public abstract class Symbol extends Element {
 	public Symbol() {}
 
 	/**
+	 * Create a symbol object.
 	 * @param position The symbol position in the source code
 	 * @param sourceFileName The source code file name
 	 */

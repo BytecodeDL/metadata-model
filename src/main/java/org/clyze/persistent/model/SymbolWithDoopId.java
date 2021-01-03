@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * A symbol that has a doop id.
+ * A symbol that has a Doop id.
  */
 public abstract class SymbolWithDoopId extends Symbol {
 

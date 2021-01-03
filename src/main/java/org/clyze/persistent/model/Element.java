@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * A persistent element of a clue analysis
+ * A persistent element of an analysis.
  */
 public abstract class Element extends ItemImpl {	
 

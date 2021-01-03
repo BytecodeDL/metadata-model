@@ -2,6 +2,9 @@ package org.clyze.persistent.model;
 
 import java.util.Map;
 
+/**
+ * A class field.
+ */
 public class Field extends AnnotateableSymbolWithDoopId {
 
 	private String name;
@@ -12,12 +15,29 @@ public class Field extends AnnotateableSymbolWithDoopId {
 
 	private String declaringClassDoopId;	
 
+    /**
+     * No-arg constructor, use setters or fromMap() to populate the object.
+     */
     public Field() {}
 
+    /**
+     * Single-arg constructor, use setters or fromMap() to populate the object.
+     * @param id      the Doop id
+     */
     public Field(String id) {
         this.id = id;
     }
-	
+
+    /**
+     * Normal object constructor.
+     * @param position             the source position
+     * @param sourceFileName       the source file
+     * @param name                 the name of the field
+     * @param doopId               the Doop id
+     * @param type                 the type of the field
+     * @param declaringClassDoopId the Doop id of the enclosing type
+     * @param isStatic             true if this is a static field
+     */
 	public Field(Position position, 
                  String sourceFileName, 
                  String name, 

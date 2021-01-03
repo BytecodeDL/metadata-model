@@ -1,12 +1,9 @@
 package org.clyze.persistent.model;
 
-import org.clyze.persistent.model.Position;
-import org.clyze.persistent.model.SymbolWithDoopId;
-
 import java.util.*;
 
 /**
- * An annotateable symbol with doop id (a class/type, a field or a method).
+ * An annotateable symbol with Doop id (a class/type, a field or a method).
  */
 public class AnnotateableSymbolWithDoopId extends SymbolWithDoopId {
 

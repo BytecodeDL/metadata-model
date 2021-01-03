@@ -3,6 +3,7 @@ package org.clyze.persistent.model;
 import java.util.Map;
 import java.util.Objects;
 
+/** A usage of an existing element. */
 public class Usage extends SymbolWithDoopId {
 
 	private UsageKind usageKind;	

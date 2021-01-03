@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A class method.
+ */
 public class Method extends AnnotateableSymbolWithDoopId {
 
 	private String name;
