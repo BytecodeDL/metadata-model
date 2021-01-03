@@ -13,7 +13,7 @@ public class Field extends AnnotateableSymbolWithDoopId {
 
 	private boolean isStatic;
 
-	private String declaringClassDoopId;	
+	private String declaringClassDoopId;
 
     /**
      * No-arg constructor, use setters or fromMap() to populate the object.

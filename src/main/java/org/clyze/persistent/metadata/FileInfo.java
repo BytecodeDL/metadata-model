@@ -22,7 +22,7 @@ public abstract class FileInfo {
     private final String outputFilePath;
 
     /** The contents of the input source file */
-    protected String source;
+    protected final String source;
 
     /** The container of found elements in the input source file */
     private final BasicMetadata elements;
