@@ -74,4 +74,9 @@ public class Position {
     public int hashCode() {
         return Objects.hash(startLine, startColumn, endLine, endColumn);
     }
+
+	@Override
+	public String toString() {
+		return "[" + startLine + ":" + startColumn + "]..[" + endLine + ":" + endColumn + "]";
+	}
 }
