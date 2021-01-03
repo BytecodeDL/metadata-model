@@ -50,16 +50,13 @@ public class FileReporter {
      * @param fInfo           the metadata file representation object
      */
     public void createReportFile(FileInfo fInfo) {
-        try {
-            File outDir = configuration.getOutDir();
-            File reportFile = (outDir == null
+        File outDir = configuration.getOutDir();
+        File reportFile = (outDir == null
                 ? new File(fInfo.getOutputFilePath())
                 : new File(outDir, fInfo.getOutputFilePath())
-            );
-            System.out.println(reportFile.getCanonicalPath());
-
-            PrintWriter report = new PrintWriter(reportFile, "UTF-8");
-
+        );
+        try (PrintWriter report = new PrintWriter(reportFile, "UTF-8")) {
+            configuration.printer.println("Report: " + reportFile.getCanonicalPath());
             BasicMetadata metadata = fInfo.getElements();
             Map<String, Set<?>> jsonReport = new HashMap<>();
             jsonReport.put("Class", metadata.classes);
@@ -72,9 +69,7 @@ public class FileReporter {
             jsonReport.put("StringConstant", metadata.stringConstants);
 
             report.write(gson.toJson(jsonReport));
-            report.close();
-        }
-        catch(IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }
