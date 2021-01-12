@@ -9,7 +9,7 @@ import groovy.transform.EqualsAndHashCode
 class NestedTestItem extends ComplexTestItem {
     TestClass nested
 
-    public void fromMap(Map<String, Object> map) {
+    void fromMap(Map<String, Object> map) {
     	super.fromMap(map)
     	def nestedMap = map.nested
     	def nested = new TestClass()

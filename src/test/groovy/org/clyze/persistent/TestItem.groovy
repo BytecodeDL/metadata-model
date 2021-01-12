@@ -13,7 +13,7 @@ class TestItem extends ItemImpl {
     int anInt
     boolean aBool
 
-	public void fromMap(Map<String, Object> map) {
+	void fromMap(Map<String, Object> map) {
 		this.id    = map.id
 		this.aStr  = map.aStr
 		this.anInt = map.anInt 
