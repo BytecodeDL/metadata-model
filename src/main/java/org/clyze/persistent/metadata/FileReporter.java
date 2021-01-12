@@ -5,9 +5,8 @@ import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Map;
+import java.util.*;
+
 import org.clyze.persistent.model.BasicMetadata;
 
 /**
@@ -58,16 +57,16 @@ public class FileReporter {
         try (PrintWriter report = new PrintWriter(reportFile, "UTF-8")) {
             configuration.printer.println("Report: " + reportFile.getCanonicalPath());
             BasicMetadata metadata = fInfo.getElements();
-            Map<String, Set<?>> jsonReport = new HashMap<>();
-            jsonReport.put("Class", metadata.classes);
-            jsonReport.put("Field", metadata.fields);
-            jsonReport.put("Method", metadata.methods);
-            jsonReport.put("Variable", metadata.variables);
-            jsonReport.put("HeapAllocation", metadata.heapAllocations);
-            jsonReport.put("MethodInvocation", metadata.invocations);
-            jsonReport.put("Usage", metadata.usages);
-            jsonReport.put("StringConstant", metadata.stringConstants);
-
+            Map<String, List<?>> jsonReport = new HashMap<>();
+            // Sort sets (by Doop id) so that output order is predictable.
+            jsonReport.put("Class", BasicMetadata.getSortedByDoopId(metadata.classes));
+            jsonReport.put("Field", BasicMetadata.getSortedByDoopId(metadata.fields));
+            jsonReport.put("Method", BasicMetadata.getSortedByDoopId(metadata.methods));
+            jsonReport.put("Variable", BasicMetadata.getSortedByDoopId(metadata.variables));
+            jsonReport.put("HeapAllocation", BasicMetadata.getSortedByDoopId(metadata.heapAllocations));
+            jsonReport.put("MethodInvocation", BasicMetadata.getSortedByDoopId(metadata.invocations));
+            jsonReport.put("Usage", BasicMetadata.getSortedByDoopId(metadata.usages));
+            jsonReport.put("StringConstant", new ArrayList<>(metadata.stringConstants));
             report.write(gson.toJson(jsonReport));
         } catch(IOException e) {
             e.printStackTrace();
