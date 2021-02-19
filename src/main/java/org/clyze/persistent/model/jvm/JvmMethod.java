@@ -1,4 +1,7 @@
-package org.clyze.persistent.model;
+package org.clyze.persistent.model.jvm;
+
+import org.clyze.persistent.model.AnnotateableSymbolWithId;
+import org.clyze.persistent.model.Position;
 
 import java.util.Map;
 import java.util.Arrays;
@@ -7,7 +10,7 @@ import java.util.List;
 /**
  * A class method.
  */
-public class Method extends AnnotateableSymbolWithDoopId {
+public class JvmMethod extends AnnotateableSymbolWithId {
 
 	private String name;
 
@@ -31,7 +34,7 @@ public class Method extends AnnotateableSymbolWithDoopId {
 	private boolean isProtected;
 	private boolean isPrivate;
 
-	private String declaringClassDoopId;		
+	private String declaringClassId;
 
 	/**
 	 * The place where the method definition begins (including any annotations and modifiers) and ends (i.e. right after
@@ -45,34 +48,34 @@ public class Method extends AnnotateableSymbolWithDoopId {
 	 */
 	private Position outerPosition;
 
-	public Method() {}
+	public JvmMethod() {}
 
-	public Method(String id) {
+	public JvmMethod(String id) {
 		this.id = id;
 	}
 
-	public Method(Position position, 
-				  String sourceFileName, 
-				  String name, 
-				  String declaringClassDoopId, 
-				  String returnType,
-				  String doopId, 
-				  String[] params, 
-				  String[] paramTypes, 
-				  boolean isStatic,
-				  boolean isInterface,
-				  boolean isAbstract,
-				  boolean isNative,
-				  boolean isSynchronized,
-				  boolean isFinal,
-				  boolean isSynthetic,
-				  boolean isPublic,
-				  boolean isProtected,
-				  boolean isPrivate,
-				  Position outerPosition) {
-		super(position, sourceFileName, doopId);
+	public JvmMethod(Position position,
+					 String sourceFileName,
+					 String name,
+					 String declaringClassId,
+					 String returnType,
+					 String symbolId,
+					 String[] params,
+					 String[] paramTypes,
+					 boolean isStatic,
+					 boolean isInterface,
+					 boolean isAbstract,
+					 boolean isNative,
+					 boolean isSynchronized,
+					 boolean isFinal,
+					 boolean isSynthetic,
+					 boolean isPublic,
+					 boolean isProtected,
+					 boolean isPrivate,
+					 Position outerPosition) {
+		super(position, sourceFileName, symbolId);
 		this.name = name;
-		this.declaringClassDoopId = declaringClassDoopId;
+		this.declaringClassId = declaringClassId;
 		this.returnType = returnType;		
 		this.params = params;
 		this.paramTypes = paramTypes;
@@ -177,12 +180,12 @@ public class Method extends AnnotateableSymbolWithDoopId {
 
 	public void setPrivate(boolean aPrivate) { isPrivate = aPrivate; }
 
-	public String getDeclaringClassDoopId() {
-		return declaringClassDoopId;
+	public String getDeclaringClassId() {
+		return declaringClassId;
 	}
 
-	public void setDeclaringClassDoopId(String declaringClassDoopId) {
-		this.declaringClassDoopId = declaringClassDoopId;
+	public void setDeclaringClassId(String declaringClassId) {
+		this.declaringClassId = declaringClassId;
 	}
 
 	public Position getOuterPosition() {
@@ -209,7 +212,7 @@ public class Method extends AnnotateableSymbolWithDoopId {
 		map.put("isPublic", this.isPublic);
 		map.put("isProtected", this.isProtected);
 		map.put("isPrivate", this.isPrivate);
-		map.put("declaringClassDoopId", this.declaringClassDoopId);	
+		map.put("declaringClassId", this.declaringClassId);
 	}
 
 	public void fromMap(Map<String, Object> map){
@@ -227,7 +230,7 @@ public class Method extends AnnotateableSymbolWithDoopId {
 		this.isPublic             = (Boolean) map.get("isPublic");
 		this.isProtected          = (Boolean) map.get("isProtected");
 		this.isPrivate            = (Boolean) map.get("isPrivate");
-		this.declaringClassDoopId = (String) map.get("declaringClassDoopId");		
+		this.declaringClassId = (String) map.get("declaringClassId");
 	}
 
 	private static String[] loadArray(Object o) {

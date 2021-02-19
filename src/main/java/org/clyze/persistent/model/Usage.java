@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.Objects;
 
 /** A usage of an existing element. */
-public class Usage extends SymbolWithDoopId {
+public class Usage extends SymbolWithId {
 
-	private UsageKind usageKind;	
+	private UsageKind usageKind;
 
     public Usage() {}
 
@@ -14,8 +14,8 @@ public class Usage extends SymbolWithDoopId {
         this.id = id;
     }
 
-	public Usage(Position position, String sourceFileName, String doopId, UsageKind usageKind) {
-		super(position, sourceFileName, doopId);		
+	public Usage(Position position, String sourceFileName, String symbolId, UsageKind usageKind) {
+		super(position, sourceFileName, symbolId);
 		this.usageKind = usageKind;
 	}
 

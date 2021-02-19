@@ -1,18 +1,21 @@
 package org.clyze.persistent.model;
 
+import org.clyze.persistent.model.Position;
+import org.clyze.persistent.model.SymbolWithId;
+
 import java.util.*;
 
 /**
- * An annotateable symbol with Doop id (a class/type, a field or a method).
+ * An annotateable symbol with a unique id (a class/type, a field, or a method).
  */
-public class AnnotateableSymbolWithDoopId extends SymbolWithDoopId {
+public class AnnotateableSymbolWithId extends SymbolWithId {
 
     private Set<String> annotationTypes = new HashSet<>();
 
-    public AnnotateableSymbolWithDoopId() {}
+    public AnnotateableSymbolWithId() {}
 
-    public AnnotateableSymbolWithDoopId(Position position, String sourceFileName, String doopId) {
-        super(position, sourceFileName, doopId);
+    public AnnotateableSymbolWithId(Position position, String sourceFileName, String symbolId) {
+        super(position, sourceFileName, symbolId);
     }
 
     public Set<String> getAnnotationTypes() {

@@ -7,17 +7,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-import org.clyze.persistent.model.BasicMetadata;
-
 /**
  * This class provides utilities for writing the final JSON metadata files.
  */
-public class FileReporter {
+public abstract class FileReporter {
 
     /** The output configuration to use. */
-    private final Configuration configuration;
-    /** JSON formatter */
-    private static final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+    protected final Configuration configuration;
 
     /**
      * Creates a new file reporter to use for generating metadata.
@@ -28,46 +24,34 @@ public class FileReporter {
     }
 
     /**
-     * Prints a metadata report in the standard output.
-     * @param fInfo  the object containing the metadata
+     * Creates a JSON builder to be used for output.
+     * @return  the JSON builder object
      */
-    public void printReportStats(FileInfo fInfo) {
-        BasicMetadata metadata = fInfo.getElements();
-
-        configuration.printer.println("Classes: " + metadata.classes.size());
-        configuration.printer.println("Fields: " + metadata.fields.size());
-        configuration.printer.println("Methods: " + metadata.methods.size());
-        configuration.printer.println("Variables: " + metadata.variables.size());
-        configuration.printer.println("HeapAllocations: " + metadata.heapAllocations.size());
-        configuration.printer.println("MethodInvocations: " + metadata.invocations.size());
-        configuration.printer.println("Usages: " + metadata.usages.size());
-        configuration.printer.println("StringConstants: " + metadata.stringConstants.size());
+    public static Gson createBuilder() {
+        return new GsonBuilder().disableHtmlEscaping().create();
     }
 
     /**
-     * Writes the JSON metadata to the filesystem.
-     * @param fInfo           the metadata file representation object
+     * Prints a metadata report in the standard output.
      */
-    public void createReportFile(FileInfo fInfo) {
+    public abstract void printReportStats();
+
+    protected abstract Map<String, List<?>> createJsonReport();
+
+    /**
+     * Writes the JSON metadata to the filesystem.
+     * @param outputFilePath      the output report file path
+     */
+    public void createReportFile(String outputFilePath) {
         File outDir = configuration.getOutDir();
         File reportFile = (outDir == null
-                ? new File(fInfo.getOutputFilePath())
-                : new File(outDir, fInfo.getOutputFilePath())
+                ? new File(outputFilePath)
+                : new File(outDir, outputFilePath)
         );
         try (PrintWriter report = new PrintWriter(reportFile, "UTF-8")) {
             configuration.printer.println("Report: " + reportFile.getCanonicalPath());
-            BasicMetadata metadata = fInfo.getElements();
-            Map<String, List<?>> jsonReport = new HashMap<>();
-            // Sort sets (by Doop id) so that output order is predictable.
-            jsonReport.put("Class", BasicMetadata.getSortedByDoopId(metadata.classes));
-            jsonReport.put("Field", BasicMetadata.getSortedByDoopId(metadata.fields));
-            jsonReport.put("Method", BasicMetadata.getSortedByDoopId(metadata.methods));
-            jsonReport.put("Variable", BasicMetadata.getSortedByDoopId(metadata.variables));
-            jsonReport.put("HeapAllocation", BasicMetadata.getSortedByDoopId(metadata.heapAllocations));
-            jsonReport.put("MethodInvocation", BasicMetadata.getSortedByDoopId(metadata.invocations));
-            jsonReport.put("Usage", BasicMetadata.getSortedByDoopId(metadata.usages));
-            jsonReport.put("StringConstant", new ArrayList<>(metadata.stringConstants));
-            report.write(gson.toJson(jsonReport));
+            Map<String, List<?>> jsonReport = createJsonReport();
+            report.write(createBuilder().toJson(jsonReport));
         } catch(IOException e) {
             e.printStackTrace();
         }

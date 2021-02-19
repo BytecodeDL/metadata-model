@@ -14,8 +14,8 @@ import java.util.Objects;
  */
 public class StringConstant extends Symbol {
 
-    /** The doopId of the static final field that this string literal initializes. */
-    private String fieldDoopId;
+    /** The id of the static final field that this string literal initializes. */
+    private String fieldId;
 
     /** The string literal value.
      *
@@ -38,25 +38,25 @@ public class StringConstant extends Symbol {
     
     public StringConstant(Position position, 
                           String sourceFileName, 
-                          String fieldDoopId, 
+                          String fieldId,
                           String value) {
         super(position, sourceFileName);
-        this.fieldDoopId = fieldDoopId;
+        this.fieldId = fieldId;
         this.value = value;
     }
 
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
-        map.put("fieldDoopId", this.fieldDoopId);
+        map.put("fieldId", this.fieldId);
         map.put("value", this.value);
     }
 
-    public String getFieldDoopId() {
-        return fieldDoopId;
+    public String getFieldId() {
+        return fieldId;
     }
 
-    public void setFieldDoopId(String fieldDoopId) {
-        this.fieldDoopId = fieldDoopId;
+    public void setFieldId(String fieldId) {
+        this.fieldId = fieldId;
     }
 
     public String getValue() {
@@ -72,19 +72,19 @@ public class StringConstant extends Symbol {
         if (object == null || getClass() != object.getClass()) return false;
         if (!super.equals(object)) return false;
         StringConstant that = (StringConstant) object;
-        return Objects.equals(fieldDoopId, that.fieldDoopId) &&
+        return Objects.equals(fieldId, that.fieldId) &&
                Objects.equals(value, that.value);
     }
 
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), fieldDoopId, value);
+        return Objects.hash(super.hashCode(), fieldId, value);
     }
 
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
-        this.fieldDoopId = (String) map.get("fieldDoopId");
-        this.value       = (String) map.get("value");
+        this.fieldId = (String) map.get("fieldId");
+        this.value   = (String) map.get("value");
     }
 
 }

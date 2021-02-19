@@ -1,7 +1,7 @@
-package org.clyze.persistent.model;
+package org.clyze.persistent.model.jvm;
 
 /** The model of "invokedynamic" instructions. */
-public class DynamicMethodInvocation {
+public class JvmDynamicMethodInvocation {
     /**
      * Creates an instruction ID for an invokedynamic that calls a
      * lambda metafactory, passing it a method handle c::meth.

@@ -1,11 +1,14 @@
-package org.clyze.persistent.model;
+package org.clyze.persistent.model.jvm;
+
+import org.clyze.persistent.model.AnnotateableSymbolWithId;
+import org.clyze.persistent.model.Position;
 
 import java.util.Map;
 
 /**
  * A class field.
  */
-public class Field extends AnnotateableSymbolWithDoopId {
+public class JvmField extends AnnotateableSymbolWithId {
 
 	private String name;
 
@@ -13,18 +16,18 @@ public class Field extends AnnotateableSymbolWithDoopId {
 
 	private boolean isStatic;
 
-	private String declaringClassDoopId;
+	private String declaringClassId;
 
     /**
      * No-arg constructor, use setters or fromMap() to populate the object.
      */
-    public Field() {}
+    public JvmField() {}
 
     /**
      * Single-arg constructor, use setters or fromMap() to populate the object.
-     * @param id      the Doop id
+     * @param id      the unique symbol id
      */
-    public Field(String id) {
+    public JvmField(String id) {
         this.id = id;
     }
 
@@ -33,22 +36,22 @@ public class Field extends AnnotateableSymbolWithDoopId {
      * @param position             the source position
      * @param sourceFileName       the source file
      * @param name                 the name of the field
-     * @param doopId               the Doop id
+     * @param symbolId             the unique symbol id
      * @param type                 the type of the field
-     * @param declaringClassDoopId the Doop id of the enclosing type
+     * @param declaringClassId     the symbol id of the enclosing type
      * @param isStatic             true if this is a static field
      */
-	public Field(Position position, 
-                 String sourceFileName, 
-                 String name, 
-                 String doopId, 
-                 String type, 
-                 String declaringClassDoopId,
-                 boolean isStatic) {
-		super(position, sourceFileName, doopId);
+	public JvmField(Position position,
+                    String sourceFileName,
+                    String name,
+                    String symbolId,
+                    String type,
+                    String declaringClassId,
+                    boolean isStatic) {
+		super(position, sourceFileName, symbolId);
 		this.name = name;		
 		this.type = type;
-		this.declaringClassDoopId = declaringClassDoopId;
+		this.declaringClassId = declaringClassId;
 		this.isStatic = isStatic;
 	}    
 
@@ -76,12 +79,12 @@ public class Field extends AnnotateableSymbolWithDoopId {
         isStatic = aStatic;
     }
 
-    public String getDeclaringClassDoopId() {
-        return declaringClassDoopId;
+    public String getDeclaringClassId() {
+        return declaringClassId;
     }
 
-    public void setDeclaringClassDoopId(String declaringClassDoopId) {
-        this.declaringClassDoopId = declaringClassDoopId;
+    public void setDeclaringClassId(String declaringClassId) {
+        this.declaringClassId = declaringClassId;
     }
 
     protected void saveTo(Map<String, Object> map) {
@@ -89,14 +92,14 @@ public class Field extends AnnotateableSymbolWithDoopId {
 		map.put("name", this.name);
 		map.put("type", this.type);
 		map.put("isStatic", this.isStatic);
-		map.put("declaringClassDoopId", this.declaringClassDoopId);		
+		map.put("declaringClassId", this.declaringClassId);
 	}
 
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.name                 = (String) map.get("name");
-		this.type                 = (String) map.get("type");
-		this.isStatic             = (Boolean) map.get("isStatic");
-		this.declaringClassDoopId = (String) map.get("declaringClassDoopId");		
+		this.name             = (String) map.get("name");
+		this.type             = (String) map.get("type");
+		this.isStatic         = (Boolean) map.get("isStatic");
+		this.declaringClassId = (String) map.get("declaringClassId");
 	}
 }

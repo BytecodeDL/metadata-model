@@ -1,19 +1,16 @@
-package org.clyze.persistent.model;
+package org.clyze.persistent.model.jvm;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.clyze.persistent.model.Position;
+import org.clyze.persistent.model.Type;
 
 /**
  * Symbol used for classes, interfaces, and enum types.
  */
-public class Class extends AnnotateableSymbolWithDoopId {
+public class JvmClass extends Type {
 
-	/**
-	 * The symbol name (package name not included)
-	 */
-	private String name;
-	
 	/** The artifact name (e.g. foo-1.2.jar) */
 	private String artifactName;
 
@@ -35,9 +32,9 @@ public class Class extends AnnotateableSymbolWithDoopId {
 	private boolean isPrivate;
 
 	/**
-	 * The doopId of the type or method where this type is declared.
+	 * The id of the type or method where this type is declared.
 	 */
-	private String declaringSymbolDoopId;
+	private String declaringSymbolId;
 
 	private long sizeInBytes;
 
@@ -47,30 +44,29 @@ public class Class extends AnnotateableSymbolWithDoopId {
 	 */
 	private List<String> superTypes = new ArrayList<>();
 
-	public Class() {}
+	public JvmClass() {}
 
-	public Class(String id) {
+	public JvmClass(String id) {
 		this.id = id;
 	}
 	
-	public Class(Position position, 
-				 String sourceFileName, 
-				 String name, 
-				 String packageName, 
-				 String doopId, 
-				 boolean isInterface, 
-				 boolean isEnum, 
-				 boolean isStatic, 
-				 boolean isInner, 
-				 boolean isAnonymous, 
-				 boolean isAbstract,
-				 boolean isFinal,
-				 boolean isPublic,
-				 boolean isProtected,
-				 boolean isPrivate) {
-		super(position, sourceFileName, doopId);
-		this.name = name;
-		this.packageName = packageName;		
+	public JvmClass(Position position,
+					String sourceFileName,
+					String name,
+					String packageName,
+					String symbolId,
+					boolean isInterface,
+					boolean isEnum,
+					boolean isStatic,
+					boolean isInner,
+					boolean isAnonymous,
+					boolean isAbstract,
+					boolean isFinal,
+					boolean isPublic,
+					boolean isProtected,
+					boolean isPrivate) {
+		super(position, sourceFileName, symbolId, name);
+		this.packageName = packageName;
 		this.isInterface = isInterface;
 		this.isEnum = isEnum;
 		this.isStatic = isStatic;
@@ -82,14 +78,6 @@ public class Class extends AnnotateableSymbolWithDoopId {
 		this.isProtected = isProtected;
 		this.isPrivate = isPrivate;
 	}	
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public String getPackageName() {
 		return packageName;
@@ -187,12 +175,12 @@ public class Class extends AnnotateableSymbolWithDoopId {
 		isPrivate = aPrivate;
 	}
 
-	public String getDeclaringSymbolDoopId() {
-		return declaringSymbolDoopId;
+	public String getDeclaringSymbolId() {
+		return declaringSymbolId;
 	}
 
-	public void setDeclaringSymbolDoopId(String declaringSymbolDoopId) {
-		this.declaringSymbolDoopId = declaringSymbolDoopId;
+	public void setDeclaringSymbolId(String declaringSymbolId) {
+		this.declaringSymbolId = declaringSymbolId;
 	}
 
 	public long getSizeInBytes() {
@@ -211,9 +199,9 @@ public class Class extends AnnotateableSymbolWithDoopId {
 		this.superTypes = superTypes;
 	}
 
+	@Override
 	protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("name", this.name);
 		map.put("artifactName", this.artifactName);
 		map.put("packageName", this.packageName);
 		map.put("isInterface", this.isInterface);
@@ -226,15 +214,15 @@ public class Class extends AnnotateableSymbolWithDoopId {
 		map.put("isPublic", this.isPublic);
 		map.put("isProtected", this.isProtected);
 		map.put("isPrivate", this.isPrivate);
-		map.put("declaringSymbolDoopId", this.declaringSymbolDoopId);
+		map.put("declaringSymbolId", this.declaringSymbolId);
 		map.put("sizeInBytes", this.sizeInBytes);
 		map.put("superTypes", this.superTypes);
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.name                  = (String) map.get("name");
 		this.artifactName          = (String) map.get("artifactName");
 		this.packageName           = (String) map.get("packageName");
 		this.isInterface           = (Boolean) map.get("isInterface");
@@ -247,7 +235,7 @@ public class Class extends AnnotateableSymbolWithDoopId {
 		this.isPublic              = (Boolean) map.get("isPublic");
 		this.isProtected           = (Boolean) map.get("isProtected");
 		this.isPrivate             = (Boolean) map.get("isPrivate");
-		this.declaringSymbolDoopId = (String) map.get("declaringSymbolDoopId");
+		this.declaringSymbolId     = (String) map.get("declaringSymbolId");
 		this.sizeInBytes           = ((Number) map.get("sizeInBytes")).longValue();
 		this.superTypes            = (List<String>) map.get("superTypes");
 	}	
