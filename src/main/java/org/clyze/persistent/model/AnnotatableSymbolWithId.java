@@ -8,13 +8,13 @@ import java.util.*;
 /**
  * An annotateable symbol with a unique id (a class/type, a field, or a method).
  */
-public class AnnotateableSymbolWithId extends SymbolWithId {
+public class AnnotatableSymbolWithId extends SymbolWithId {
 
     private Set<String> annotationTypes = new HashSet<>();
 
-    public AnnotateableSymbolWithId() {}
+    public AnnotatableSymbolWithId() {}
 
-    public AnnotateableSymbolWithId(Position position, String sourceFileName, String symbolId) {
+    public AnnotatableSymbolWithId(Position position, String sourceFileName, String symbolId) {
         super(position, sourceFileName, symbolId);
     }
 

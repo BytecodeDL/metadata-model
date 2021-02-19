@@ -1,6 +1,6 @@
 package org.clyze.persistent.model.jvm;
 
-import org.clyze.persistent.model.AnnotateableSymbolWithId;
+import org.clyze.persistent.model.AnnotatableSymbolWithId;
 import org.clyze.persistent.model.Position;
 
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * A class field.
  */
-public class JvmField extends AnnotateableSymbolWithId {
+public class JvmField extends AnnotatableSymbolWithId {
 
 	private String name;
 

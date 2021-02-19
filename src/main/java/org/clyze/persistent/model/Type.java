@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * A type (examples: class, interface, struct, enum, union).
  */
-public class Type extends AnnotateableSymbolWithId {
+public class Type extends AnnotatableSymbolWithId {
     /**
      * The type name (package name not included)
      */
