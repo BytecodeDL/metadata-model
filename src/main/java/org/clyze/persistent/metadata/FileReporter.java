@@ -1,7 +1,7 @@
 package org.clyze.persistent.metadata;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,14 +24,6 @@ public abstract class FileReporter {
     }
 
     /**
-     * Creates a JSON builder to be used for output.
-     * @return  the JSON builder object
-     */
-    public static Gson createBuilder() {
-        return new GsonBuilder().disableHtmlEscaping().create();
-    }
-
-    /**
      * Prints a metadata report in the standard output.
      */
     public abstract void printReportStats();
@@ -51,7 +43,7 @@ public abstract class FileReporter {
         try (PrintWriter report = new PrintWriter(reportFile, "UTF-8")) {
             configuration.printer.println("Report: " + reportFile.getCanonicalPath());
             Map<String, List<?>> jsonReport = createJsonReport();
-            report.write(createBuilder().toJson(jsonReport));
+            report.write((new ObjectMapper()).writerWithDefaultPrettyPrinter().writeValueAsString(jsonReport));
         } catch(IOException e) {
             e.printStackTrace();
         }

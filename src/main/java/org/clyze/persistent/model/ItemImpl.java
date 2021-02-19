@@ -2,7 +2,9 @@ package org.clyze.persistent.model;
 
 import java.util.Map;
 import java.util.HashMap;
-import com.google.gson.Gson;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 /** The top-level implementation of items in the model. */
 public abstract class ItemImpl implements Item {
@@ -21,14 +23,23 @@ public abstract class ItemImpl implements Item {
 
 	@Override
 	public ItemImpl fromJSON(String json) {
-		Map<String, Object> map = new Gson().fromJson(json, Map.class);
-		fromMap(map);
+		try {
+			Map<String, Object> map = (Map<String, Object>)new ObjectMapper().readValue(json, Map.class);
+			fromMap(map);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		return this;
 	}
 
 	@Override
-	public String toJSON() { 
-		return new Gson().toJson(toMap());
+	public String toJSON() {
+		try {
+			return (new ObjectMapper()).writerWithDefaultPrettyPrinter().writeValueAsString(toMap());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return "{}";
+		}
 	}
 
 	@Override

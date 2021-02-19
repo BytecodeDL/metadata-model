@@ -1,10 +1,10 @@
 package org.clyze.persistent;
 
-import com.google.gson.Gson;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.clyze.persistent.metadata.Configuration;
 import org.clyze.persistent.metadata.Printer;
 import org.clyze.persistent.metadata.SourceFileReporter;
@@ -35,8 +35,7 @@ public class TestDeSerialization {
 
         try {
             String json = new String(Files.readAllBytes((new File(outPath)).toPath()));
-            Gson gson = new Gson();
-            Map<String, Object> map = gson.fromJson(json, Map.class);
+            Map<String, Object> map = (Map<String, Object>)(new ObjectMapper()).readValue(json, Map.class);
             List<Map<String, Object>> types = (List<Map<String, Object>>) map.get("Type");
             assert types != null;
             assert mapEquals(map1, types.get(0));
