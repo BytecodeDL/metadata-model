@@ -1,4 +1,7 @@
-package org.clyze.persistent.model;
+package org.clyze.persistent.model.jvm;
+
+import org.clyze.persistent.model.Position;
+import org.clyze.persistent.model.Symbol;
 
 import java.util.Map;
 import java.util.Objects;
@@ -12,7 +15,7 @@ import java.util.Objects;
  * appear in the bytecode and therefore are not analyzed. What this class does
  * is to provide a "possible value" for such fields.
  */
-public class StringConstant extends Symbol {
+public class JvmStringConstant extends Symbol {
 
     /** The id of the static final field that this string literal initializes. */
     private String fieldId;
@@ -30,16 +33,16 @@ public class StringConstant extends Symbol {
      */
     private String value;
 
-    public StringConstant() {}
+    public JvmStringConstant() {}
 
-    public StringConstant(String id) {
+    public JvmStringConstant(String id) {
         this.id = id;
     }
     
-    public StringConstant(Position position, 
-                          String sourceFileName, 
-                          String fieldId,
-                          String value) {
+    public JvmStringConstant(Position position,
+                             String sourceFileName,
+                             String fieldId,
+                             String value) {
         super(position, sourceFileName);
         this.fieldId = fieldId;
         this.value = value;
@@ -71,7 +74,7 @@ public class StringConstant extends Symbol {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         if (!super.equals(object)) return false;
-        StringConstant that = (StringConstant) object;
+        JvmStringConstant that = (JvmStringConstant) object;
         return Objects.equals(fieldId, that.fieldId) &&
                Objects.equals(value, that.value);
     }

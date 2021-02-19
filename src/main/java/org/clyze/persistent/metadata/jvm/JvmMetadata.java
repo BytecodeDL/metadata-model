@@ -1,7 +1,7 @@
 package org.clyze.persistent.metadata.jvm;
 
 import java.util.*;
-import org.clyze.persistent.model.StringConstant;
+import org.clyze.persistent.model.jvm.JvmStringConstant;
 import org.clyze.persistent.model.SymbolWithId;
 import org.clyze.persistent.model.Usage;
 import org.clyze.persistent.model.jvm.*;
@@ -20,15 +20,15 @@ public class JvmMetadata {
     public final Set<JvmMethodInvocation> jvmInvocations = new HashSet<>();
     public final Set<JvmHeapAllocation> jvmHeapAllocations = new HashSet<>();
     public final Set<Usage> usages = new HashSet<>();
-    public final Set<StringConstant> stringConstants = new HashSet<>();
+    public final Set<JvmStringConstant> jvmStringConstants = new HashSet<>();
 
     /**
      * Return a metadata collection sorted by id, to make output canonical.
-     * @param set    the collection of elements (that have Doop ids)
+     * @param set    the collection of elements (that have unique ids)
      * @param <T>    the actual type of the set elements
      * @return       the sorted output list
      */
-    public static <T extends SymbolWithId> List<T> getSortedByDoopId(Set<T> set) {
+    public static <T extends SymbolWithId> List<T> getSortedBySymbolId(Set<T> set) {
         List<T> ret = new ArrayList<>(set);
         ret.sort(Comparator.comparing(SymbolWithId::getSymbolId));
         return ret;

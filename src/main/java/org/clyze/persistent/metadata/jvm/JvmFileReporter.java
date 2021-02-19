@@ -38,7 +38,7 @@ public class JvmFileReporter extends FileReporter {
         configuration.printer.println("HeapAllocations: " + metadata.jvmHeapAllocations.size());
         configuration.printer.println("MethodInvocations: " + metadata.jvmInvocations.size());
         configuration.printer.println("Usages: " + metadata.usages.size());
-        configuration.printer.println("StringConstants: " + metadata.stringConstants.size());
+        configuration.printer.println("StringConstants: " + metadata.jvmStringConstants.size());
     }
 
     @Override
@@ -46,14 +46,14 @@ public class JvmFileReporter extends FileReporter {
         JvmMetadata metadata = fInfo.getElements();
         Map<String, List<?>> jsonReport = new HashMap<>();
         // Sort sets (by id) so that output order is predictable.
-        jsonReport.put("Class", JvmMetadata.getSortedByDoopId(metadata.jvmClasses));
-        jsonReport.put("Field", JvmMetadata.getSortedByDoopId(metadata.jvmFields));
-        jsonReport.put("Method", JvmMetadata.getSortedByDoopId(metadata.jvmMethods));
-        jsonReport.put("Variable", JvmMetadata.getSortedByDoopId(metadata.jvmVariables));
-        jsonReport.put("HeapAllocation", JvmMetadata.getSortedByDoopId(metadata.jvmHeapAllocations));
-        jsonReport.put("MethodInvocation", JvmMetadata.getSortedByDoopId(metadata.jvmInvocations));
-        jsonReport.put("Usage", JvmMetadata.getSortedByDoopId(metadata.usages));
-        jsonReport.put("StringConstant", new ArrayList<>(metadata.stringConstants));
+        jsonReport.put("JvmClass", JvmMetadata.getSortedBySymbolId(metadata.jvmClasses));
+        jsonReport.put("JvmField", JvmMetadata.getSortedBySymbolId(metadata.jvmFields));
+        jsonReport.put("JvmMethod", JvmMetadata.getSortedBySymbolId(metadata.jvmMethods));
+        jsonReport.put("JvmVariable", JvmMetadata.getSortedBySymbolId(metadata.jvmVariables));
+        jsonReport.put("JvmHeapAllocation", JvmMetadata.getSortedBySymbolId(metadata.jvmHeapAllocations));
+        jsonReport.put("JvmMethodInvocation", JvmMetadata.getSortedBySymbolId(metadata.jvmInvocations));
+        jsonReport.put("JvmStringConstant", new ArrayList<>(metadata.jvmStringConstants));
+        jsonReport.put("Usage", JvmMetadata.getSortedBySymbolId(metadata.usages));
         return jsonReport;
     }
 
