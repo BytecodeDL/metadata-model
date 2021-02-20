@@ -2,9 +2,7 @@ package org.clyze.persistent.model;
 
 import java.util.Map;
 import java.util.HashMap;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import org.clyze.persistent.metadata.JSONUtil;
 
 /** The top-level implementation of items in the model. */
 public abstract class ItemImpl implements Item {
@@ -24,7 +22,7 @@ public abstract class ItemImpl implements Item {
 	@Override
 	public ItemImpl fromJSON(String json) {
 		try {
-			Map<String, Object> map = (Map<String, Object>)new ObjectMapper().readValue(json, Map.class);
+			Map<String, Object> map = JSONUtil.toMap(json);
 			fromMap(map);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -35,7 +33,7 @@ public abstract class ItemImpl implements Item {
 	@Override
 	public String toJSON() {
 		try {
-			return (new ObjectMapper()).writerWithDefaultPrettyPrinter().writeValueAsString(toMap());
+			return JSONUtil.getObjectWriter().writeValueAsString(toMap());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return "{}";

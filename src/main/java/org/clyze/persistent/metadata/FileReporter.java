@@ -1,6 +1,10 @@
 package org.clyze.persistent.metadata;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,10 +47,9 @@ public abstract class FileReporter {
         try (PrintWriter report = new PrintWriter(reportFile, "UTF-8")) {
             configuration.printer.println("Report: " + reportFile.getCanonicalPath());
             Map<String, List<?>> jsonReport = createJsonReport();
-            report.write((new ObjectMapper()).writerWithDefaultPrettyPrinter().writeValueAsString(jsonReport));
+            report.write(JSONUtil.getObjectWriter().writeValueAsString(jsonReport));
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
-
 }

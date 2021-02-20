@@ -1,21 +1,76 @@
 package org.clyze.persistent;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.clyze.persistent.metadata.Configuration;
-import org.clyze.persistent.metadata.Printer;
-import org.clyze.persistent.metadata.SourceFileReporter;
-import org.clyze.persistent.metadata.SourceMetadata;
+import org.clyze.persistent.metadata.*;
+import org.clyze.persistent.metadata.jvm.JvmFileReporter;
+import org.clyze.persistent.metadata.jvm.JvmMetadata;
 import org.clyze.persistent.model.*;
+import org.clyze.persistent.model.jvm.*;
 import org.junit.jupiter.api.Test;
 
 public class TestDeSerialization {
 
     @Test
-    public void test() {
+    public void testJvmModel() {
+        Position pos = new Position(0, 1, 2, 3);
+        JvmClass jvmClass1 = new JvmClass(pos, "sourceFileName", "name",
+                "packageName", "symbolId", false, false, false, false, false,
+                true, false, true, false, false);
+        jvmClass1.setAnnotations(new HashSet<>(Arrays.asList("c-annotation1", "c-annotation2")));
+        jvmClass1.setDeclaringSymbolId("declaring-symbol");
+        Map<String, Object> map1 = jvmClass1.toMap();
+        JvmClass jvmClass2 = new JvmClass();
+        jvmClass2.fromMap(map1);
+
+        assert jvmClass1.equals(jvmClass2);
+        assert itemEquals(jvmClass1, jvmClass2);
+
+        JvmField jvmField1 = new JvmField(pos, "sourceFileName", "name",
+                "symbolId", "type", "declaringClassId", true);
+        jvmField1.setAnnotations(new HashSet<>(Arrays.asList("f-annotation1", "f-annotation2")));
+        jvmField1.setDeclaringClassId("declaring-class");
+        JvmField jvmField2 = new JvmField();
+        jvmField2.fromMap(jvmField1.toMap());
+
+        assert jvmField1.equals(jvmField2);
+        assert itemEquals(jvmField1, jvmField2);
+
+        JvmMethod jvmMethod1 = new JvmMethod(pos, "sourceFileName", "name",
+                "declaringClassId", "java.lang.String", "method-symbolId",
+                new String[] { "param0", "param1" },
+                new String[] { "int", "java.lang.Integer" }, false, false,
+                false, false, false, false, true, false, true, false,
+                new Position(1, 2, 3, 4));
+        jvmMethod1.setAnnotations(new HashSet<>(Arrays.asList("m-annotation1", "m-annotation2")));
+        jvmMethod1.setDeclaringClassId("declaring-class");
+        JvmMethod jvmMethod2 = new JvmMethod();
+        jvmMethod2.fromMap(jvmMethod1.toMap());
+
+        assert jvmMethod1.equals(jvmMethod2);
+        assert itemEquals(jvmMethod1, jvmMethod2);
+
+        Configuration configuration = new Configuration(new Printer(true));
+        JvmMetadata metadata = new JvmMetadata();
+        metadata.jvmClasses.add(jvmClass1);
+        metadata.jvmFields.add(jvmField1);
+        metadata.jvmMethods.add(jvmMethod2);
+        FileInfo fileInfo = new FileInfo("package.name", "inputName", "input/file/path", "test source", metadata);
+        JvmFileReporter reporter = new JvmFileReporter(configuration, fileInfo);
+        try {
+            Map<String, Object> map = serializeToJsonAndGetMap(reporter, "build/test-jvm-metadata.json");
+            List<Map<String, Object>> jvmClasses = (List<Map<String, Object>>) map.get("JvmClass");
+            assert jvmClasses != null;
+            assert mapEquals(map1, jvmClasses.get(0));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testLanguageAgnosticModel() {
         Position pos = new Position(0, 1, 2, 3);
         Type type1 = new Type(pos, "sourceFileName.c", "unique-symbolId", "name");
         Type type2 = new Type();
@@ -25,23 +80,28 @@ public class TestDeSerialization {
         assert type1.equals(type2);
         assert itemEquals(type1, type2);
 
-        Configuration configuration = new Configuration(new Printer(true));
         SourceMetadata elements = new SourceMetadata();
         elements.types.add(type1);
-        SourceFileReporter reporter = new SourceFileReporter(configuration, elements);
-        String outPath = "build/test-metadata.json";
-        reporter.createReportFile(outPath);
-        reporter.printReportStats();
-
+        SourceFileReporter reporter = new SourceFileReporter(getConfiguration(), elements);
         try {
-            String json = new String(Files.readAllBytes((new File(outPath)).toPath()));
-            Map<String, Object> map = (Map<String, Object>)(new ObjectMapper()).readValue(json, Map.class);
+            Map<String, Object> map = serializeToJsonAndGetMap(reporter, "build/test-metadata.json");
             List<Map<String, Object>> types = (List<Map<String, Object>>) map.get("Type");
             assert types != null;
             assert mapEquals(map1, types.get(0));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private Map<String, Object> serializeToJsonAndGetMap(FileReporter reporter, String outPath) throws IOException {
+        reporter.createReportFile(outPath);
+        reporter.printReportStats();
+        String json = new String(Files.readAllBytes((new File(outPath)).toPath()));
+        return JSONUtil.toMap(json);
+    }
+
+    private Configuration getConfiguration() {
+        return new Configuration(new Printer(true));
     }
 
     /**
@@ -67,7 +127,7 @@ public class TestDeSerialization {
         allKeys.addAll(keys2);
         for (String key : allKeys)
             if (keyMismatchNotEqual(key, map1, map2) || keyMismatchNotEqual(key, map2, map1)) {
-                System.err.println("ERROR: maps have different keys: " + keys1 + " vs. " + keys2);
+                System.err.println("ERROR: maps have different key '" + key + "': " + new TreeSet<>(keys1) + " vs. " + new TreeSet<>(keys2));
                 return false;
             }
         boolean result = true;

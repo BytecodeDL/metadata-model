@@ -1,16 +1,13 @@
 package org.clyze.persistent.model;
 
-import org.clyze.persistent.model.Position;
-import org.clyze.persistent.model.SymbolWithId;
-
 import java.util.*;
 
 /**
- * An annotateable symbol with a unique id (a class/type, a field, or a method).
+ * An annotatable symbol with a unique id (a class/type, a field, or a method).
  */
 public class AnnotatableSymbolWithId extends SymbolWithId {
 
-    private Set<String> annotationTypes = new HashSet<>();
+    private Set<String> annotations = new HashSet<>();
 
     public AnnotatableSymbolWithId() {}
 
@@ -18,22 +15,22 @@ public class AnnotatableSymbolWithId extends SymbolWithId {
         super(position, sourceFileName, symbolId);
     }
 
-    public Set<String> getAnnotationTypes() {
-        return annotationTypes;
+    public Set<String> getAnnotations() {
+        return annotations;
     }
 
-    public void setAnnotationTypes(Set<String> annotationTypes) {
-        this.annotationTypes = annotationTypes;
+    public void setAnnotations(Set<String> annotations) {
+        this.annotations = annotations;
     }
 
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
-        map.put("annotationTypes", this.annotationTypes);
+        map.put("annotations", this.annotations);
     }
 
     @SuppressWarnings("unchecked")
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
-        this.annotationTypes = new HashSet<>((Collection<String>) map.get("annotationTypes"));
+        this.annotations = new HashSet<>((Collection<String>) map.get("annotations"));
     }
 }
