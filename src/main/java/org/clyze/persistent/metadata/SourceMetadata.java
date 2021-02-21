@@ -1,5 +1,6 @@
 package org.clyze.persistent.metadata;
 
+import org.clyze.persistent.model.Function;
 import org.clyze.persistent.model.Type;
 
 import java.util.Collections;
@@ -11,8 +12,10 @@ import java.util.List;
  */
 public class SourceMetadata {
     public final List<Type> types = new LinkedList<>();
+    public final List<Function> functions = new LinkedList<>();
 
     public void sort() {
         Collections.sort(types);
+        Collections.sort(functions);
     }
 }

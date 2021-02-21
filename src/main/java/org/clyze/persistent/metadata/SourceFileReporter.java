@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class SourceFileReporter extends FileReporter {
 
-    final SourceMetadata metadata;
+    private final SourceMetadata metadata;
 
     /**
      * Creates a new file reporter to use for generating metadata.
@@ -21,6 +21,7 @@ public class SourceFileReporter extends FileReporter {
     @Override
     public void printReportStats() {
         configuration.printer.println("Types: " + metadata.types.size());
+        configuration.printer.println("Functions: " + metadata.functions.size());
     }
 
     @Override
@@ -28,6 +29,7 @@ public class SourceFileReporter extends FileReporter {
         Map<String, List<?>> jsonReport = new HashMap<>();
         metadata.sort();
         jsonReport.put("Type", metadata.types);
+        jsonReport.put("Function", metadata.functions);
         return jsonReport;
     }
 }

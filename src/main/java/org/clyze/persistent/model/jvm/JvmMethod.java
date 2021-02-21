@@ -1,28 +1,17 @@
 package org.clyze.persistent.model.jvm;
 
-import org.clyze.persistent.model.AnnotatableSymbolWithId;
-import org.clyze.persistent.model.Position;
-
 import java.util.Map;
 import java.util.Arrays;
-import java.util.List;
+import org.clyze.persistent.model.Function;
+import org.clyze.persistent.model.Position;
 
 /**
  * A class method.
  */
-public class JvmMethod extends AnnotatableSymbolWithId {
-
-	private String name;
+public class JvmMethod extends Function {
 
 	private String returnType;
-
-	/**
-	 * The parameter names
-	 */
-	private String[] params;
-
 	private String[] paramTypes;
-
 	private boolean isStatic;
 	private boolean isInterface;
 	private boolean isAbstract;
@@ -33,20 +22,7 @@ public class JvmMethod extends AnnotatableSymbolWithId {
 	private boolean isPublic;
 	private boolean isProtected;
 	private boolean isPrivate;
-
 	private String declaringClassId;
-
-	/**
-	 * The place where the method definition begins (including any annotations and modifiers) and ends (i.e. right after
-	 * the closing brace). If the starting or ending line contain nothing else except the method definition and whitespaces,
-	 * then the corresponding column is set to zero
-	 *
-	 * Note: Differs from the "position" field inherited from "Symbol" in that the latter refers to the starting and
-	 *       ending positions of the method name inside its definition
-	 *
-	 * todo: Add a constructor parameter for this field too. For now we simply set its value with the auto-produced setter
-	 */
-	private Position outerPosition;
 
 	public JvmMethod() {}
 
@@ -73,11 +49,9 @@ public class JvmMethod extends AnnotatableSymbolWithId {
 					 boolean isProtected,
 					 boolean isPrivate,
 					 Position outerPosition) {
-		super(position, sourceFileName, symbolId);
-		this.name = name;
+		super(position, sourceFileName, symbolId, name, params, outerPosition);
 		this.declaringClassId = declaringClassId;
 		this.returnType = returnType;		
-		this.params = params;
 		this.paramTypes = paramTypes;
 		this.isStatic = isStatic;		
 		this.isInterface = isInterface;
@@ -89,15 +63,6 @@ public class JvmMethod extends AnnotatableSymbolWithId {
 		this.isPublic = isPublic;
 		this.isProtected = isProtected;
 		this.isPrivate = isPrivate;
-		this.outerPosition = outerPosition;
-	}	
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getReturnType() {
@@ -106,14 +71,6 @@ public class JvmMethod extends AnnotatableSymbolWithId {
 
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
-	}
-
-	public String[] getParams() {
-		return params;
-	}
-
-	public void setParams(String[] params) {
-		this.params = params;
 	}
 
 	public String[] getParamTypes() {
@@ -188,19 +145,10 @@ public class JvmMethod extends AnnotatableSymbolWithId {
 		this.declaringClassId = declaringClassId;
 	}
 
-	public Position getOuterPosition() {
-		return outerPosition;
-	}
-
-	public void setOuterPosition(Position outerPosition) {
-		this.outerPosition = outerPosition;
-	}
-
+	@Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("name", this.name);
 		map.put("returnType", this.returnType);
-		map.put("params", this.params == null ? null : Arrays.asList(this.params));
 		map.put("paramTypes", this.paramTypes == null ? null : Arrays.asList(this.paramTypes));
 		map.put("isStatic", this.isStatic);
 		map.put("isInterface", this.isInterface);
@@ -215,11 +163,10 @@ public class JvmMethod extends AnnotatableSymbolWithId {
 		map.put("declaringClassId", this.declaringClassId);
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.name                 = (String) map.get("name");
 		this.returnType           = (String) map.get("returnType");
-		this.params               = loadArray(map.get("params"));
 		this.paramTypes           = loadArray(map.get("paramTypes"));
 		this.isStatic             = (Boolean) map.get("isStatic");
 		this.isInterface          = (Boolean) map.get("isInterface");
@@ -231,14 +178,5 @@ public class JvmMethod extends AnnotatableSymbolWithId {
 		this.isProtected          = (Boolean) map.get("isProtected");
 		this.isPrivate            = (Boolean) map.get("isPrivate");
 		this.declaringClassId = (String) map.get("declaringClassId");
-	}
-
-	private static String[] loadArray(Object o) {
-		if (o == null) {
-			return null;
-		}
-
-		List<String> values = (List<String>) o;
-		return values.toArray(new String[0]);
 	}
 }

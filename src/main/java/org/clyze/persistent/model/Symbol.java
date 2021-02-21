@@ -57,33 +57,41 @@ public abstract class Symbol extends Element {
         return Objects.hash(super.hashCode(), sourceFileName, position);
     }
 
-    @Override
-    protected void saveTo(Map<String, Object> map) {
-        super.saveTo(map);
+    protected static void putPosition(Map<String, Object> map, String key, Position position) {
         if (position != null) {
             Map<String, Object> posMap = new HashMap<>();
             posMap.put("startLine", position.getStartLine());
             posMap.put("endLine", position.getEndLine());
             posMap.put("startColumn", position.getStartColumn());
             posMap.put("endColumn", position.getEndColumn());
-            map.put("position", posMap);
+            map.put(key, posMap);
         }
+    }
+
+    protected static Position fromPositionMap(Map<String, Object> map, String key) {
+        Map<String, Object> position = (Map<String, Object>)map.get(key);
+        if (position == null)
+            return null;
+        return new Position(((Number) position.get("startLine")).longValue(),
+            ((Number) position.get("endLine")).longValue(),
+            ((Number) position.get("startColumn")).longValue(),
+            ((Number) position.get("endColumn")).longValue()
+        );
+    }
+
+    @Override
+    protected void saveTo(Map<String, Object> map) {
+        super.saveTo(map);
+        putPosition(map, "position", position);
         map.put("sourceFileName", sourceFileName);
     }
 
     @Override
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
-        Map<String, Object> position = (Map<String, Object>)map.get("position");
-        if (position != null) {
-            this.position = new Position(
-                                         ((Number) position.get("startLine")).longValue(),
-                                         ((Number) position.get("endLine")).longValue(),
-                                         ((Number) position.get("startColumn")).longValue(),
-                                         ((Number) position.get("endColumn")).longValue()
-                                         );
-        }
-
+        Position position = fromPositionMap(map, "position");
+        if (position != null)
+            this.position = position;
         this.sourceFileName = (String) map.get("sourceFileName");
     }
 }
