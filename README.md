@@ -1,4 +1,6 @@
-This library models code metadata.
+This library models code as metadata that can be used for applications
+such as code navigation, high-level code structure analysis, or IDE
+integration.
 
 Currently, two metadata models are provided:
 
