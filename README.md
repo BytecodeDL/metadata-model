@@ -16,6 +16,6 @@ Currently, two metadata models are provided:
   with IDEs.
 
 * Language-agnostic source code metadata that categorize source
-  constructs (and provide their location). An example generators of
+  constructs (and provide their location). An example generator of
   these metadata is
   [antlr2datalog](https://github.com/gfour/antlr2datalog/).
