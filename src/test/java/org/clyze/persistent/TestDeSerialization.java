@@ -204,8 +204,6 @@ public class TestDeSerialization {
      * @return        true if the values are equal
      */
     private boolean jsonValueEquals(Object obj1, Object obj2) {
-//        System.out.println(obj1.getClass().getCanonicalName());
-//        System.out.println(obj2.getClass().getCanonicalName());
         if (obj1.equals(obj2))
             return true;
         if (obj1 instanceof Number && obj2 instanceof Number)

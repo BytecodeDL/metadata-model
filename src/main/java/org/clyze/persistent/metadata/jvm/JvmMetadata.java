@@ -1,7 +1,7 @@
 package org.clyze.persistent.metadata.jvm;
 
 import java.util.*;
-import org.clyze.persistent.model.jvm.JvmStringConstant;
+
 import org.clyze.persistent.model.SymbolWithId;
 import org.clyze.persistent.model.Usage;
 import org.clyze.persistent.model.jvm.*;
