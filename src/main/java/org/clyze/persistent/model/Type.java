@@ -13,7 +13,7 @@ public class Type extends AnnotatableSymbolWithId {
     private String name;
 
     /**
-     * Nullary constructor, use setters or fromMap() to populate the object.
+     * No-arg constructor, use setters or fromMap() to populate the object.
      */
     public Type() { }
 

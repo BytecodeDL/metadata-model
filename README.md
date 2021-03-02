@@ -7,7 +7,7 @@ Currently, two metadata models are provided:
 * Code metadata for Java (and Java-like) code (package
   `org.clyze.persistent.model.jvm`). Elements of this metadata provide
   Java-specific information (such as `static` modifiers and class
-  supertypes). Example generators of these metadata are the
+  supertypes). Example generators of such metadata are the
   [source-ir-fitter
   tool](https://github.com/plast-lab/source-ir-fitter/), [the Doop
   Jimple parser](https://bitbucket.org/yanniss/doop), and the [Doop
@@ -17,5 +17,5 @@ Currently, two metadata models are provided:
 
 * Language-agnostic source code metadata that categorize source
   constructs (and provide their location). An example generator of
-  these metadata is
+  such metadata is
   [antlr2datalog](https://github.com/gfour/antlr2datalog/).
