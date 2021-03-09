@@ -3,6 +3,7 @@ package org.clyze.persistent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import org.clyze.persistent.metadata.*;
 import org.clyze.persistent.metadata.jvm.JvmFileReporter;
@@ -59,11 +60,21 @@ public class TestDeSerialization {
         metadata.jvmMethods.add(jvmMethod2);
         FileInfo fileInfo = new FileInfo("package.name", "inputName", "input/file/path", "test source", metadata);
         JvmFileReporter reporter = new JvmFileReporter(configuration, fileInfo);
+        String metadataPath = "build/test-jvm-metadata.json";
         try {
-            Map<String, Object> map = serializeToJsonAndGetMap(reporter, "build/test-jvm-metadata.json");
-            List<Map<String, Object>> jvmClasses = (List<Map<String, Object>>) map.get("JvmClass");
+            Map<String, Object> map = serializeToJsonAndGetMap(reporter, metadataPath);
+            List<Map<String, Object>> jvmClasses = (List<Map<String, Object>>) map.get(JvmClass.class.getSimpleName());
             assert jvmClasses != null;
             assert mapEquals(map1, jvmClasses.get(0));
+            JvmMetadata deserializedMetadata = JvmMetadata.fromMap(map);
+            assert deserializedMetadata.jvmClasses.size() == 1;
+            assert deserializedMetadata.jvmFields.size() == 1;
+            assert deserializedMetadata.jvmMethods.size() == 1;
+            assert deserializedMetadata.jvmHeapAllocations.size() == 0;
+            assert deserializedMetadata.jvmStringConstants.size() == 0;
+            assert deserializedMetadata.usages.size() == 0;
+            assert deserializedMetadata.jvmInvocations.size() == 0;
+            assert deserializedMetadata.jvmVariables.size() == 0;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -95,9 +106,12 @@ public class TestDeSerialization {
         SourceFileReporter reporter = new SourceFileReporter(getConfiguration(), elements);
         try {
             Map<String, Object> map = serializeToJsonAndGetMap(reporter, "build/test-metadata.json");
-            List<Map<String, Object>> types = (List<Map<String, Object>>) map.get("Type");
+            List<Map<String, Object>> types = (List<Map<String, Object>>) map.get(Type.class.getSimpleName());
             assert types != null;
             assert mapEquals(map1, types.get(0));
+            SourceMetadata sourceMetadata = SourceMetadata.fromMap(map);
+            assert sourceMetadata.functions.size() == 1;
+            assert sourceMetadata.types.size() == 1;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -130,6 +144,7 @@ public class TestDeSerialization {
         return map1.containsKey(key) && !map2.containsKey(key) && map1.get(key) != null;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean mapEquals(Map<String, Object> map1, Map<String, Object> map2) {
         Set<String> keys1 = map1.keySet();
         Set<String> keys2 = map2.keySet();
@@ -165,6 +180,7 @@ public class TestDeSerialization {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean listEquals(List<Object> list1, List<Object> list2) {
         if (list1 == null && list2 == null)
             return true;

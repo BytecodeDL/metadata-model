@@ -2,7 +2,11 @@ package org.clyze.persistent.metadata.jvm;
 
 import java.util.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.clyze.persistent.metadata.JSONUtil;
+import org.clyze.persistent.model.Function;
 import org.clyze.persistent.model.SymbolWithId;
+import org.clyze.persistent.model.Type;
 import org.clyze.persistent.model.Usage;
 import org.clyze.persistent.model.jvm.*;
 
@@ -32,5 +36,24 @@ public class JvmMetadata {
         List<T> ret = new ArrayList<>(set);
         ret.sort(Comparator.comparing(SymbolWithId::getSymbolId));
         return ret;
+    }
+
+    /**
+     * Create a JVM metadata object from a map representation for JSON data.
+     * @param  map the map to use
+     * @return the deserialized JVM metadata object
+     */
+    @SuppressWarnings("unchecked")
+    public static JvmMetadata fromMap(Map<String, Object> map) throws JsonProcessingException {
+        JvmMetadata metadata = new JvmMetadata();
+        metadata.jvmClasses.addAll((List<JvmClass>) map.get(JvmClass.class.getSimpleName()));
+        metadata.jvmFields.addAll((List<JvmField>) map.get(JvmField.class.getSimpleName()));
+        metadata.jvmMethods.addAll((List<JvmMethod>) map.get(JvmMethod.class.getSimpleName()));
+        metadata.jvmVariables.addAll((List<JvmVariable>) map.get(JvmVariable.class.getSimpleName()));
+        metadata.jvmInvocations.addAll((List<JvmMethodInvocation>) map.get(JvmMethodInvocation.class.getSimpleName()));
+        metadata.jvmHeapAllocations.addAll((List<JvmHeapAllocation>) map.get(JvmHeapAllocation.class.getSimpleName()));
+        metadata.usages.addAll((List<Usage>) map.get(Usage.class.getSimpleName()));
+        metadata.jvmStringConstants.addAll((List<JvmStringConstant>) map.get(JvmStringConstant.class.getSimpleName()));
+        return metadata;
     }
 }
