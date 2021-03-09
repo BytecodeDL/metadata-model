@@ -120,8 +120,7 @@ public class TestDeSerialization {
     private Map<String, Object> serializeToJsonAndGetMap(FileReporter reporter, String outPath) throws IOException {
         reporter.createReportFile(outPath);
         reporter.printReportStats();
-        String json = new String(Files.readAllBytes((new File(outPath)).toPath()));
-        return JSONUtil.toMap(json);
+        return JSONUtil.toMap((new File(outPath)).toPath());
     }
 
     private Configuration getConfiguration() {
