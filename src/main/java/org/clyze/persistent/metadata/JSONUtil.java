@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,6 +28,7 @@ public class JSONUtil {
      * Convert JSON data to a Java Map.
      * @param json   the JSON data
      * @return       the Map object
+     * @throws JsonProcessingException on data deserialization error
      */
     public static Map<String, Object> toMap(String json) throws JsonProcessingException {
         return (Map<String, Object>)new ObjectMapper().readValue(json, Map.class);
@@ -38,6 +38,7 @@ public class JSONUtil {
      * Convert JSON file to a Java Map.
      * @param path   the JSON file path
      * @return       the Map object
+     * @throws IOException on data deserialization error
      */
     public static Map<String, Object> toMap(Path path) throws IOException {
         return JSONUtil.toMap(new String(Files.readAllBytes(path)));

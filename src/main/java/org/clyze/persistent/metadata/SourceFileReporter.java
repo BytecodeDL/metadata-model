@@ -12,6 +12,7 @@ public class SourceFileReporter extends FileReporter {
      * Creates a new file reporter to use for generating metadata.
      *
      * @param configuration the output configuration to use
+     * @param metadata      the metadata object to use
      */
     public SourceFileReporter(Configuration configuration, SourceMetadata metadata) {
         super(configuration);

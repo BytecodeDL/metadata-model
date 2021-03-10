@@ -1,12 +1,8 @@
 package org.clyze.persistent.metadata.jvm;
 
-import java.util.*;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.clyze.persistent.metadata.JSONUtil;
-import org.clyze.persistent.model.Function;
+import java.util.*;
 import org.clyze.persistent.model.SymbolWithId;
-import org.clyze.persistent.model.Type;
 import org.clyze.persistent.model.Usage;
 import org.clyze.persistent.model.jvm.*;
 
@@ -17,13 +13,21 @@ import org.clyze.persistent.model.jvm.*;
  * syntactic representation (e.g. Java source file, Jimple IR).
  */
 public class JvmMetadata {
+    /** The program classes/interfaces. */
     public final Set<JvmClass> jvmClasses = new HashSet<>();
+    /** The class/interface fields. */
     public final Set<JvmField> jvmFields = new HashSet<>();
+    /** The class/interface methods. */
     public final Set<JvmMethod> jvmMethods = new HashSet<>();
+    /** The local variables inside methods. */
     public final Set<JvmVariable> jvmVariables = new HashSet<>();
+    /** The method invocation sites inside methods. */
     public final Set<JvmMethodInvocation> jvmInvocations = new HashSet<>();
+    /** The heap allocation sites inside methods. */
     public final Set<JvmHeapAllocation> jvmHeapAllocations = new HashSet<>();
+    /** Usage information that connects code elements with their use. */
     public final Set<Usage> usages = new HashSet<>();
+    /** String constants. */
     public final Set<JvmStringConstant> jvmStringConstants = new HashSet<>();
 
     /**
@@ -42,6 +46,7 @@ public class JvmMetadata {
      * Create a JVM metadata object from a map representation for JSON data.
      * @param  map the map to use
      * @return the deserialized JVM metadata object
+     * @throws JsonProcessingException on deserialization error
      */
     @SuppressWarnings("unchecked")
     public static JvmMetadata fromMap(Map<String, Object> map) throws JsonProcessingException {
