@@ -49,4 +49,9 @@ public class Usage extends SymbolWithId {
 		super.fromMap(map);
 		this.usageKind = UsageKind.valueOf((String)map.get("usageKind"));		
 	}
+
+    @Override
+    public String toString() {
+        return "Usage[" + usageKind + "]: " + symbolId + "@" + getSourceFileName() + "/" + getPosition();
+    }
 }
