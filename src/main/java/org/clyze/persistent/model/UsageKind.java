@@ -6,6 +6,8 @@ public enum UsageKind {
 	PACKAGE,
 	/** Used as a type. */
 	TYPE,
+	/** Used as a function. */
+	FUNCTION,
 	/** Used to read data. */
 	DATA_READ,
 	/** Used to write data. */

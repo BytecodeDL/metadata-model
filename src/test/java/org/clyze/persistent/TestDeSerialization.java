@@ -2,8 +2,6 @@ package org.clyze.persistent;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import org.clyze.persistent.metadata.*;
 import org.clyze.persistent.metadata.jvm.JvmFileReporter;
@@ -16,8 +14,10 @@ public class TestDeSerialization {
 
     @Test
     public void testJvmModel() {
+        String sourceFileName = "sourceFileName.java";
+
         Position pos = new Position(0, 1, 2, 3);
-        JvmClass jvmClass1 = new JvmClass(pos, "sourceFileName", "name",
+        JvmClass jvmClass1 = new JvmClass(pos, sourceFileName, "name",
                 "packageName", "symbolId", false, false, false, false, false,
                 true, false, true, false, false);
         jvmClass1.setAnnotations(new HashSet<>(Arrays.asList("c-annotation1", "c-annotation2")));
@@ -29,7 +29,7 @@ public class TestDeSerialization {
         assert jvmClass1.equals(jvmClass2);
         assert itemEquals(jvmClass1, jvmClass2);
 
-        JvmField jvmField1 = new JvmField(pos, "sourceFileName", "name",
+        JvmField jvmField1 = new JvmField(pos, sourceFileName, "name",
                 "symbolId", "type", "declaringClassId", true);
         jvmField1.setAnnotations(new HashSet<>(Arrays.asList("f-annotation1", "f-annotation2")));
         jvmField1.setDeclaringClassId("declaring-class");
@@ -39,7 +39,7 @@ public class TestDeSerialization {
         assert jvmField1.equals(jvmField2);
         assert itemEquals(jvmField1, jvmField2);
 
-        JvmMethod jvmMethod1 = new JvmMethod(pos, "sourceFileName", "name",
+        JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, "name",
                 "declaringClassId", "java.lang.String", "method-symbolId",
                 new String[] { "param0", "param1" },
                 new String[] { "int", "java.lang.Integer" }, false, false,
@@ -53,11 +53,39 @@ public class TestDeSerialization {
         assert jvmMethod1.equals(jvmMethod2);
         assert itemEquals(jvmMethod1, jvmMethod2);
 
+        Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, jvmClass1.getSymbolId(), UsageKind.TYPE);
+        Usage class1Usage_ = new Usage();
+        class1Usage_.fromMap(class1Usage.toMap());
+
+        assert class1Usage.equals(class1Usage_);
+
+        Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, jvmField2.getSymbolId(), UsageKind.DATA_READ);
+        Usage field1ReadUsage_ = new Usage();
+        field1ReadUsage_.fromMap(field1ReadUsage.toMap());
+
+        assert field1ReadUsage.equals(field1ReadUsage_);
+
+        Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
+        Usage field1WriteUsage_ = new Usage();
+        field1WriteUsage_.fromMap(field1WriteUsage.toMap());
+
+        assert field1WriteUsage.equals(field1WriteUsage_);
+
+        Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
+        Usage method1Usage_ = new Usage();
+        method1Usage_.fromMap(method1Usage.toMap());
+
+        assert method1Usage.equals(method1Usage_);
+
         Configuration configuration = new Configuration(new Printer(true));
         JvmMetadata metadata = new JvmMetadata();
         metadata.jvmClasses.add(jvmClass1);
         metadata.jvmFields.add(jvmField1);
         metadata.jvmMethods.add(jvmMethod2);
+        metadata.usages.add(class1Usage);
+        metadata.usages.add(field1ReadUsage);
+        metadata.usages.add(field1WriteUsage);
+        metadata.usages.add(method1Usage);
         FileInfo fileInfo = new FileInfo("package.name", "inputName", "input/file/path", "test source", metadata);
         JvmFileReporter reporter = new JvmFileReporter(configuration, fileInfo);
         String metadataPath = "build/test-jvm-metadata.json";
@@ -72,7 +100,7 @@ public class TestDeSerialization {
             assert deserializedMetadata.jvmMethods.size() == 1;
             assert deserializedMetadata.jvmHeapAllocations.size() == 0;
             assert deserializedMetadata.jvmStringConstants.size() == 0;
-            assert deserializedMetadata.usages.size() == 0;
+            assert deserializedMetadata.usages.size() == 4;
             assert deserializedMetadata.jvmInvocations.size() == 0;
             assert deserializedMetadata.jvmVariables.size() == 0;
         } catch (Exception ex) {
