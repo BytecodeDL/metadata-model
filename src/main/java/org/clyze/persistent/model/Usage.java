@@ -5,11 +5,17 @@ import java.util.Objects;
 
 /** A usage of an existing element. */
 public class Usage extends SymbolWithId {
-
+    /** The kind of this usage. */
 	private UsageKind usageKind;
 
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public Usage() {}
 
+    /**
+     * Single-arg constructor, use setters or fromMap() to populate the object.
+     * Used during deserialization.
+     * @param id      a unique deserialization id
+     */
     public Usage(String id) {
         this.id = id;
     }
@@ -27,6 +33,7 @@ public class Usage extends SymbolWithId {
         this.usageKind = usageKind;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof Usage)) return false;
@@ -36,6 +43,7 @@ public class Usage extends SymbolWithId {
             && Objects.equals(usageKind, usage.usageKind);
     }
 
+    @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), usageKind);
     }

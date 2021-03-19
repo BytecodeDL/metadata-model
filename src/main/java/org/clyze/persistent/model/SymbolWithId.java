@@ -11,6 +11,9 @@ public abstract class SymbolWithId extends Symbol implements Comparable<SymbolWi
 
     protected String symbolId;
 
+    /**
+     * No-arg constructor, use setters or fromMap() to populate the object.
+     */
     public SymbolWithId() {}
 
     public SymbolWithId(Position position, String sourceFileName, String symbolId) {

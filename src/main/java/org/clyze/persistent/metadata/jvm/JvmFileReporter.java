@@ -12,6 +12,7 @@ import org.clyze.persistent.metadata.FileReporter;
  * The reporter for JVM-specific metadata.
  */
 public class JvmFileReporter extends FileReporter {
+    /** The file information object containing the metadata. */
     private final FileInfo fInfo;
 
     /**

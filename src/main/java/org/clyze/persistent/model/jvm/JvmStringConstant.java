@@ -33,12 +33,25 @@ public class JvmStringConstant extends Symbol {
      */
     private String value;
 
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public JvmStringConstant() {}
 
+    /**
+     * Single-arg constructor, use setters or fromMap() to populate the object.
+     * Used during deserialization.
+     * @param id      a unique deserialization id
+     */
     public JvmStringConstant(String id) {
         this.id = id;
     }
-    
+
+    /**
+     * Create a string constant object.
+     * @param position         the source position
+     * @param sourceFileName   the source file name
+     * @param fieldId          the id of the field initialized by this constant
+     * @param value            the constant value
+     */
     public JvmStringConstant(Position position,
                              String sourceFileName,
                              String fieldId,
@@ -48,28 +61,46 @@ public class JvmStringConstant extends Symbol {
         this.value = value;
     }
 
+    @Override
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
         map.put("fieldId", getFieldId());
         map.put("value", getValue());
     }
 
+    /**
+     * Get the id of the field initialized by this string.
+     * @return the field id
+     */
     public String getFieldId() {
         return fieldId;
     }
 
+    /**
+     * Set the field initialized by this string.
+     * @param fieldId   the field id
+     */
     public void setFieldId(String fieldId) {
         this.fieldId = fieldId;
     }
 
+    /**
+     * Get the string initializer value.
+     * @return   the constant string
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Set the string initializer value.
+     * @param value   the constant string
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
@@ -79,8 +110,8 @@ public class JvmStringConstant extends Symbol {
                Objects.equals(value, that.value);
     }
 
+    @Override
     public int hashCode() {
-
         return Objects.hash(super.hashCode(), fieldId, value);
     }
 

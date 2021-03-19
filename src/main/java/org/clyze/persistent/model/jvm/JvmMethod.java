@@ -1,7 +1,6 @@
 package org.clyze.persistent.model.jvm;
 
 import java.util.Map;
-import java.util.Arrays;
 import org.clyze.persistent.model.Function;
 import org.clyze.persistent.model.Position;
 
@@ -9,23 +8,41 @@ import org.clyze.persistent.model.Position;
  * A class method.
  */
 public class JvmMethod extends Function {
-
+	/** The return type of the method. */
 	private String returnType;
+	/** The types of the method parameters. */
 	private String[] paramTypes;
+	/** True for static methods. */
 	private boolean isStatic;
+	/** True for methods declared in interfaces. */
 	private boolean isInterface;
+	/** True if this is an abstract method. */
 	private boolean isAbstract;
+	/** True for native methods. */
 	private boolean isNative;
+	/** True for synchronized methods. */
 	private boolean isSynchronized;
+	/** True for final methods. */
 	private boolean isFinal;
+	/** True for synthetic (compiled-generated) methods. */
 	private boolean isSynthetic;
+	/** True for public methods. */
 	private boolean isPublic;
+	/** True for protected methods. */
 	private boolean isProtected;
+	/** True for private methods. */
 	private boolean isPrivate;
+	/** The id of the class containing this method declaration. */
 	private String declaringClassId;
 
+	/** No-arg constructor, use setters or fromMap() to populate the object. */
 	public JvmMethod() {}
 
+	/**
+	 * Single-arg constructor, use setters or fromMap() to populate the object.
+	 * Used during deserialization.
+	 * @param id      a unique deserialization id
+	 */
 	public JvmMethod(String id) {
 		this.id = id;
 	}
@@ -86,7 +103,7 @@ public class JvmMethod extends Function {
 	}
 
 	public void setStatic(boolean aStatic) {
-		isStatic = aStatic;
+		this.isStatic = aStatic;
 	}
 
 	public boolean isInterface() {

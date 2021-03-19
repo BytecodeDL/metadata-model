@@ -18,14 +18,13 @@ public class JvmField extends AnnotatableSymbolWithId {
 
 	private String declaringClassId;
 
-    /**
-     * No-arg constructor, use setters or fromMap() to populate the object.
-     */
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public JvmField() {}
 
     /**
      * Single-arg constructor, use setters or fromMap() to populate the object.
-     * @param id      the unique symbol id
+     * Used during deserialization.
+     * @param id      a unique deserialization id
      */
     public JvmField(String id) {
         this.id = id;

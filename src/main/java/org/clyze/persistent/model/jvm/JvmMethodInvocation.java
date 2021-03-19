@@ -17,8 +17,14 @@ public class JvmMethodInvocation extends SymbolWithId {
     /** If true, this is inside an instance initializer block. */
     private boolean inIIB = false;
 
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public JvmMethodInvocation() {}
 
+    /**
+     * Single-arg constructor, use setters or fromMap() to populate the object.
+     * Used during deserialization.
+     * @param id      a unique deserialization id
+     */
     public JvmMethodInvocation(String id) {
         this.id = id;
     }

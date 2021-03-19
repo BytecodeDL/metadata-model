@@ -46,10 +46,9 @@ public class JvmMetadata {
      * Create a JVM metadata object from a map representation for JSON data.
      * @param  map the map to use
      * @return the deserialized JVM metadata object
-     * @throws JsonProcessingException on deserialization error
      */
     @SuppressWarnings("unchecked")
-    public static JvmMetadata fromMap(Map<String, Object> map) throws JsonProcessingException {
+    public static JvmMetadata fromMap(Map<String, Object> map) {
         JvmMetadata metadata = new JvmMetadata();
         metadata.jvmClasses.addAll((List<JvmClass>) map.get(JvmClass.class.getSimpleName()));
         metadata.jvmFields.addAll((List<JvmField>) map.get(JvmField.class.getSimpleName()));

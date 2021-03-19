@@ -44,8 +44,14 @@ public class JvmClass extends Type {
 	 */
 	private List<String> superTypes = new ArrayList<>();
 
+	/** No-arg constructor, use setters or fromMap() to populate the object. */
 	public JvmClass() {}
 
+	/**
+	 * Single-arg constructor, use setters or fromMap() to populate the object.
+	 * Used during deserialization.
+	 * @param id      a unique deserialization id
+	 */
 	public JvmClass(String id) {
 		this.id = id;
 	}

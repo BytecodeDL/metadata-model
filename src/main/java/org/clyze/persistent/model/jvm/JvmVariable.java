@@ -25,8 +25,14 @@ public class JvmVariable extends SymbolWithId {
 	/** True if this variable is inside an instance initializer block. */
 	private boolean inIIB = false;
 
+	/** No-arg constructor, use setters or fromMap() to populate the object. */
 	public JvmVariable() {}
 
+	/**
+	 * Single-arg constructor, use setters or fromMap() to populate the object.
+	 * Used during deserialization.
+	 * @param id      a unique deserialization id
+	 */
     public JvmVariable(String id) {
         this.id = id;
     }

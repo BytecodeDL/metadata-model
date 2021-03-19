@@ -22,8 +22,14 @@ public class Function extends AnnotatableSymbolWithId {
      */
     private Position outerPosition;
 
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public Function() { }
 
+    /**
+     * Single-arg constructor, use setters or fromMap() to populate the object.
+     * Used during deserialization.
+     * @param id      a unique deserialization id
+     */
     public Function(String id) {
         this.id = id;
     }

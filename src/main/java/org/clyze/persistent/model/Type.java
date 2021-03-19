@@ -12,11 +12,14 @@ public class Type extends AnnotatableSymbolWithId {
      */
     private String name;
 
-    /**
-     * No-arg constructor, use setters or fromMap() to populate the object.
-     */
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public Type() { }
 
+    /**
+     * Single-arg constructor, use setters or fromMap() to populate the object.
+     * Used during deserialization.
+     * @param id      a unique deserialization id
+     */
     public Type(String id) {
         this.id = id;
     }

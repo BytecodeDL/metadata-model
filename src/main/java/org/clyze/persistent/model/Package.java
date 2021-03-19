@@ -12,9 +12,10 @@ public class Package extends ItemImpl {
 	private String name;
 	private String fullyQualifiedName;
 	private String parentPackageId;
-	//A package can be defined in multiple artifacts
+	/** A package can be defined in multiple artifacts. */
 	private List<String> artifactIds;
 
+	/** No-arg constructor, use setters or fromMap() to populate the object. */
 	public Package() {}
 
 	public Package(String id, String name, String fullyQualifiedName, String parentPackageId, List<String> artifactIds) {
@@ -35,6 +36,7 @@ public class Package extends ItemImpl {
 		this.id = id;
 	}
 
+	@Override
 	protected void saveTo(Map<String, Object> map) {		
 		map.put("id", this.id);
 		map.put("name", this.name);
@@ -43,6 +45,7 @@ public class Package extends ItemImpl {
 		map.put("artifactIds", this.artifactIds);
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		this.id                 = (String) map.get("id");
 		this.name               = (String) map.get("name");

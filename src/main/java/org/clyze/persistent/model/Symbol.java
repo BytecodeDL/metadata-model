@@ -9,10 +9,13 @@ import java.util.Objects;
  */
 public abstract class Symbol extends Element {
 
+    /** The source code position. */
     private Position position;
 
+    /** The source file name. */
     private String sourceFileName;
 
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public Symbol() {}
 
     /**

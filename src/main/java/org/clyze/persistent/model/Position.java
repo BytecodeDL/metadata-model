@@ -10,9 +10,7 @@ public class Position {
 	private long endLine;
 	private long endColumn;
 
-	/**
-	 * No-arg constructor, use setters to populate the object.
-	 */
+	/** No-arg constructor, use setters to populate the object. */
 	public Position() {}
 
 	/**

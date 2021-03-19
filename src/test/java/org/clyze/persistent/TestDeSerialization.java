@@ -10,8 +10,14 @@ import org.clyze.persistent.model.*;
 import org.clyze.persistent.model.jvm.*;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test metadata serialization and deserialization.
+ */
 public class TestDeSerialization {
 
+    /**
+     * Test JVM metadata.
+     */
     @Test
     public void testJvmModel() {
         String sourceFileName = "sourceFileName.java";
@@ -108,6 +114,9 @@ public class TestDeSerialization {
         }
     }
 
+    /**
+     * Test language-agnostic metadata.
+     */
     @Test
     public void testLanguageAgnosticModel() {
         String sourceFileName = "sourceFileName.c";
@@ -145,12 +154,23 @@ public class TestDeSerialization {
         }
     }
 
+    /**
+     * Serialize metadata to JSON, deserialize, and convert to Map.
+     * @param reporter      the metadata reporter to generate the JSON
+     * @param outPath       the output path
+     * @return              the deserialized Map representation
+     * @throws IOException  on deserialization error
+     */
     private Map<String, Object> serializeToJsonAndGetMap(FileReporter reporter, String outPath) throws IOException {
         reporter.createReportFile(outPath);
         reporter.printReportStats();
         return JSONUtil.toMap((new File(outPath)).toPath());
     }
 
+    /**
+     * Get a basic configuration to use for testing.
+     * @return   the configuration object to use during metadata generation
+     */
     private Configuration getConfiguration() {
         return new Configuration(new Printer(true));
     }
@@ -167,10 +187,23 @@ public class TestDeSerialization {
         return mapEquals(map1, map2);
     }
 
+    /**
+     * Test if a map has a key that a second map misses.
+     * @param key     the key
+     * @param map1    the first Map
+     * @param map2    the second Map
+     * @return        true on key mismatch
+     */
     private boolean keyMismatchNotEqual(String key, Map<String, Object> map1, Map<String, Object> map2) {
         return map1.containsKey(key) && !map2.containsKey(key) && map1.get(key) != null;
     }
 
+    /**
+     * Test if two Map objects (representing JSON data) are equal.
+     * @param map1  the first object to compare
+     * @param map2  the second object to compare
+     * @return      true if the objects are equal, false otherwise
+     */
     @SuppressWarnings("unchecked")
     private boolean mapEquals(Map<String, Object> map1, Map<String, Object> map2) {
         Set<String> keys1 = map1.keySet();
@@ -207,6 +240,12 @@ public class TestDeSerialization {
         return result;
     }
 
+    /**
+     * Test list equality, taking into account Map representations of values.
+     * @param list1  the first list to compare
+     * @param list2  the second list to compare
+     * @return       true if the lists are equal
+     */
     @SuppressWarnings("unchecked")
     private boolean listEquals(List<Object> list1, List<Object> list2) {
         if (list1 == null && list2 == null)

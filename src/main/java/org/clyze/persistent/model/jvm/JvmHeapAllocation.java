@@ -9,19 +9,23 @@ import java.util.Map;
  * A heap allocation site ("new").
  */
 public class JvmHeapAllocation extends SymbolWithId {
-
+    /** The type of the allocated object. */
     private String allocatedTypeId;
-
+    /** The id of the method containing this allocation site. */
     private String allocatingMethodId;
-
     /** If true, the allocation is inside an instance initializer block. */
     private boolean inIIB = false;
-
     /** If true, the allocation is an array type. */
     private boolean isArray = false;
 
+    /** No-arg constructor, use setters or fromMap() to populate the object. */
     public JvmHeapAllocation() {}
 
+    /**
+     * Single-arg constructor, use setters or fromMap() to populate the object.
+     * Used during deserialization.
+     * @param id      a unique deserialization id
+     */
     public JvmHeapAllocation(String id) {
         this.id = id;
     }

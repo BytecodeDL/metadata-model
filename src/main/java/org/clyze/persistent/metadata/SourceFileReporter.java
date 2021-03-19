@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The reporter for language-agnostic metadata.
+ */
 public class SourceFileReporter extends FileReporter {
-
+    /** The metadata to be serialized. */
     private final SourceMetadata metadata;
 
     /**
