@@ -40,14 +40,16 @@ public class Usage extends SymbolWithId {
         return Objects.hash(super.hashCode(), usageKind);
     }
 
+    @Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("usageKind", this.usageKind.name());		
+		map.put("usageKind", getUsageKind().name());
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.usageKind = UsageKind.valueOf((String)map.get("usageKind"));		
+		setUsageKind(UsageKind.valueOf((String)map.get("usageKind")));
 	}
 
     @Override

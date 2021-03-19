@@ -50,6 +50,7 @@ public class Artifact extends ItemImpl {
 		this.parentArtifactId = parentArtifactId;
 	}	
 
+	@Override
 	protected void saveTo(Map<String, Object> map) {
 		map.put("id", this.id);
 		map.put("name",this.name);
@@ -62,6 +63,7 @@ public class Artifact extends ItemImpl {
 		map.put("parentArtifactId", this.parentArtifactId);
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		this.id               = (String) map.get("id");
 		this.name             = (String) map.get("name");

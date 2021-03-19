@@ -148,35 +148,36 @@ public class JvmMethod extends Function {
 	@Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("returnType", this.returnType);
-		map.put("paramTypes", this.paramTypes == null ? null : Arrays.asList(this.paramTypes));
-		map.put("isStatic", this.isStatic);
-		map.put("isInterface", this.isInterface);
-		map.put("isAbstract", this.isAbstract);
-		map.put("isNative", this.isNative);
-		map.put("isSynchronized", this.isSynchronized);
-		map.put("isFinal", this.isFinal);
-		map.put("isSynthetic", this.isSynthetic);
-		map.put("isPublic", this.isPublic);
-		map.put("isProtected", this.isProtected);
-		map.put("isPrivate", this.isPrivate);
-		map.put("declaringClassId", this.declaringClassId);
+		map.put("returnType", getReturnType());
+		map.put("paramTypes", arrayToList(getParamTypes()));
+		map.put("isStatic", isStatic());
+		map.put("isInterface", isInterface());
+		map.put("isAbstract", isAbstract());
+		map.put("isNative", isNative());
+		map.put("isSynchronized", isSynchronized());
+		map.put("isFinal", isFinal());
+		map.put("isSynthetic", isSynthetic());
+		map.put("isPublic", isPublic());
+		map.put("isProtected", isProtected());
+		map.put("isPrivate", isPrivate());
+		map.put("declaringClassId", getDeclaringClassId());
 	}
 
 	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.returnType           = (String) map.get("returnType");
-		this.paramTypes           = loadArray(map.get("paramTypes"));
-		this.isStatic             = (Boolean) map.get("isStatic");
-		this.isInterface          = (Boolean) map.get("isInterface");
-		this.isAbstract           = (Boolean) map.get("isAbstract");
-		this.isNative             = (Boolean) map.get("isNative");
-		this.isFinal              = (Boolean) map.get("isFinal");
-		this.isSynthetic          = (Boolean) map.get("isSynthetic");
-		this.isPublic             = (Boolean) map.get("isPublic");
-		this.isProtected          = (Boolean) map.get("isProtected");
-		this.isPrivate            = (Boolean) map.get("isPrivate");
-		this.declaringClassId = (String) map.get("declaringClassId");
+		setReturnType((String) map.get("returnType"));
+		setParamTypes(listToArray(map.get("paramTypes")));
+		setStatic((Boolean) map.get("isStatic"));
+		setInterface((Boolean) map.get("isInterface"));
+		setAbstract((Boolean) map.get("isAbstract"));
+		setNative((Boolean) map.get("isNative"));
+		setFinal((Boolean) map.get("isFinal"));
+		setSynthetic((Boolean) map.get("isSynthetic"));
+		setSynchronized((Boolean) map.get("isSynchronized"));
+		setPublic((Boolean) map.get("isPublic"));
+		setProtected((Boolean) map.get("isProtected"));
+		setPrivate((Boolean) map.get("isPrivate"));
+		setDeclaringClassId((String) map.get("declaringClassId"));
 	}
 }

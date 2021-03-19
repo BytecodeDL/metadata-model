@@ -63,27 +63,41 @@ public class Function extends AnnotatableSymbolWithId {
     @Override
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
-        map.put("name", this.name);
-        map.put("params", this.params == null ? null : Arrays.asList(this.params));
-        putPosition(map, "outerPosition", outerPosition);
+        map.put("name", getName());
+        map.put("params", arrayToList(getParams()));
+        putPosition(map, "outerPosition", getOuterPosition());
     }
 
     @Override
     public void fromMap(Map<String, Object> map) {
         super.fromMap(map);
-        this.name = (String) map.get("name");
-        this.params = loadArray(map.get("params"));
+        setName((String) map.get("name"));
+        setParams(listToArray(map.get("params")));
         Position outerPosition = fromPositionMap(map, "outerPosition");
         if (outerPosition != null)
-            this.outerPosition = outerPosition;
+            setOuterPosition(outerPosition);
     }
 
-    protected static String[] loadArray(Object o) {
+    /**
+     * Helper method to load string lists.
+     * @param o   an object that should be a string list
+     * @return    the string list or null if o is null
+     */
+    protected static String[] listToArray(Object o) {
         if (o == null) {
             return null;
         }
 
-        List<String> values = (List<String>) o;
+        @SuppressWarnings("unchecked") List<String> values = (List<String>) o;
         return values.toArray(new String[0]);
+    }
+
+    /**
+     * Helper method to convert string arrays to lists.
+     * @param array  the input string array
+     * @return       the corresponding string list or null if the array is null
+     */
+    protected static List<String> arrayToList(String[] array) {
+        return array == null ? null : Arrays.asList(array);
     }
 }

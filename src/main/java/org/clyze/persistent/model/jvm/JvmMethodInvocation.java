@@ -61,15 +61,15 @@ public class JvmMethodInvocation extends SymbolWithId {
 
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
-        map.put("name", this.name);
-        map.put("invokingMethodId", this.invokingMethodId);
-        map.put("inIIB", this.inIIB);
+        map.put("name", getName());
+        map.put("invokingMethodId", getInvokingMethodId());
+        map.put("inIIB", isInIIB());
     }
 
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
-        this.name                 = (String) map.get("name");
-        this.invokingMethodId     = (String) map.get("invokingMethodId");
-        this.inIIB                = (Boolean) map.get("inIIB");
+        setName((String) map.get("name"));
+        setInvokingMethodId((String) map.get("invokingMethodId"));
+        setInIIB((Boolean) map.get("inIIB"));
     }
 }

@@ -50,8 +50,8 @@ public class JvmStringConstant extends Symbol {
 
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
-        map.put("fieldId", this.fieldId);
-        map.put("value", this.value);
+        map.put("fieldId", getFieldId());
+        map.put("value", getValue());
     }
 
     public String getFieldId() {
@@ -84,10 +84,10 @@ public class JvmStringConstant extends Symbol {
         return Objects.hash(super.hashCode(), fieldId, value);
     }
 
+    @Override
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
-        this.fieldId = (String) map.get("fieldId");
-        this.value   = (String) map.get("value");
+        setFieldId((String) map.get("fieldId"));
+        setValue((String) map.get("value"));
     }
-
 }

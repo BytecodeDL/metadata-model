@@ -69,7 +69,7 @@ public abstract class Symbol extends Element {
     }
 
     protected static Position fromPositionMap(Map<String, Object> map, String key) {
-        Map<String, Object> position = (Map<String, Object>)map.get(key);
+        @SuppressWarnings("unchecked") Map<String, Object> position = (Map<String, Object>)map.get(key);
         if (position == null)
             return null;
         return new Position(((Number) position.get("startLine")).longValue(),

@@ -89,17 +89,17 @@ public class JvmField extends AnnotatableSymbolWithId {
 
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("name", this.name);
-		map.put("type", this.type);
-		map.put("isStatic", this.isStatic);
-		map.put("declaringClassId", this.declaringClassId);
+		map.put("name", getName());
+		map.put("type", getType());
+		map.put("isStatic", isStatic());
+		map.put("declaringClassId", getDeclaringClassId());
 	}
 
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.name             = (String) map.get("name");
-		this.type             = (String) map.get("type");
-		this.isStatic         = (Boolean) map.get("isStatic");
-		this.declaringClassId = (String) map.get("declaringClassId");
+		setName((String) map.get("name"));
+		setType((String) map.get("type"));
+		setStatic((Boolean) map.get("isStatic"));
+		setDeclaringClassId((String) map.get("declaringClassId"));
 	}
 }

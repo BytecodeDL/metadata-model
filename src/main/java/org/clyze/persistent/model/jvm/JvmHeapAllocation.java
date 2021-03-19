@@ -75,18 +75,18 @@ public class JvmHeapAllocation extends SymbolWithId {
     @Override
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
-        map.put("allocatedTypeId", this.allocatedTypeId);
-        map.put("allocatingMethodId", this.allocatingMethodId);
-        map.put("inIIB", this.inIIB);
-        map.put("isArray", this.isArray);
+        map.put("allocatedTypeId", getAllocatedTypeId());
+        map.put("allocatingMethodId", getAllocatingMethodId());
+        map.put("inIIB", isInIIB());
+        map.put("isArray", isArray());
     }
 
     @Override
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
-        this.allocatedTypeId    = (String) map.get("allocatedTypeId");
-        this.allocatingMethodId = (String) map.get("allocatingMethodId");
-        this.inIIB              = (Boolean) map.get("inIIB");
-        this.isArray            = (Boolean) map.get("isArray");
+        setAllocatedTypeId((String) map.get("allocatedTypeId"));
+        setAllocatingMethodId((String) map.get("allocatingMethodId"));
+        setInIIB((Boolean) map.get("inIIB"));
+        setArray((Boolean) map.get("isArray"));
     }
 }

@@ -202,41 +202,41 @@ public class JvmClass extends Type {
 	@Override
 	protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("artifactName", this.artifactName);
-		map.put("packageName", this.packageName);
-		map.put("isInterface", this.isInterface);
-		map.put("isEnum", this.isEnum);
-		map.put("isStatic", this.isStatic);
-		map.put("isInner", this.isInner);
-		map.put("isAnonymous", this.isAnonymous);
-		map.put("isAbstract", this.isAbstract);
-		map.put("isFinal", this.isFinal);
-		map.put("isPublic", this.isPublic);
-		map.put("isProtected", this.isProtected);
-		map.put("isPrivate", this.isPrivate);
-		map.put("declaringSymbolId", this.declaringSymbolId);
-		map.put("sizeInBytes", this.sizeInBytes);
-		map.put("superTypes", this.superTypes);
+		map.put("artifactName", getArtifactName());
+		map.put("packageName", getPackageName());
+		map.put("isInterface", isInterface());
+		map.put("isEnum", isEnum());
+		map.put("isStatic", isStatic());
+		map.put("isInner", isInner());
+		map.put("isAnonymous", isAnonymous());
+		map.put("isAbstract", isAbstract());
+		map.put("isFinal", isFinal());
+		map.put("isPublic", isPublic());
+		map.put("isProtected", isProtected());
+		map.put("isPrivate", isPrivate());
+		map.put("declaringSymbolId", getDeclaringSymbolId());
+		map.put("sizeInBytes", getSizeInBytes());
+		map.put("superTypes", getSuperTypes());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.artifactName          = (String) map.get("artifactName");
-		this.packageName           = (String) map.get("packageName");
-		this.isInterface           = (Boolean) map.get("isInterface");
-		this.isEnum                = (Boolean) map.get("isEnum");
-		this.isStatic              = (Boolean) map.get("isStatic");
-		this.isInner               = (Boolean) map.get("isInner");
-		this.isAnonymous           = (Boolean) map.get("isAnonymous");
-		this.isAbstract            = (Boolean) map.get("isAbstract");
-		this.isFinal               = (Boolean) map.get("isFinal");
-		this.isPublic              = (Boolean) map.get("isPublic");
-		this.isProtected           = (Boolean) map.get("isProtected");
-		this.isPrivate             = (Boolean) map.get("isPrivate");
-		this.declaringSymbolId     = (String) map.get("declaringSymbolId");
-		this.sizeInBytes           = ((Number) map.get("sizeInBytes")).longValue();
-		this.superTypes            = (List<String>) map.get("superTypes");
+		setArtifactName((String) map.get("artifactName"));
+		setPackageName((String) map.get("packageName"));
+		setInterface((Boolean) map.get("isInterface"));
+		setEnum((Boolean) map.get("isEnum"));
+		setStatic((Boolean) map.get("isStatic"));
+		setInner((Boolean) map.get("isInner"));
+		setAnonymous((Boolean) map.get("isAnonymous"));
+		setAbstract((Boolean) map.get("isAbstract"));
+		setFinal((Boolean) map.get("isFinal"));
+		setPublic((Boolean) map.get("isPublic"));
+		setProtected((Boolean) map.get("isProtected"));
+		setPrivate((Boolean) map.get("isPrivate"));
+		setDeclaringSymbolId((String) map.get("declaringSymbolId"));
+		setSizeInBytes(((Number) map.get("sizeInBytes")).longValue());
+		setSuperTypes((List<String>) map.get("superTypes"));
 	}	
 }

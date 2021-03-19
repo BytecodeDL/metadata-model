@@ -93,24 +93,26 @@ public class JvmVariable extends SymbolWithId {
         this.inIIB = inIIB;
     }
 
+    @Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("name", this.name);
-		map.put("type", this.type);
-		map.put("isLocal", this.isLocal);
-		map.put("isParameter", this.isParameter);
-		map.put("declaringMethodId", this.declaringMethodId);
-		map.put("inIIB", this.inIIB);
+		map.put("name", getName());
+		map.put("type", getType());
+		map.put("isLocal", isLocal());
+		map.put("isParameter", isParameter());
+		map.put("declaringMethodId", getDeclaringMethodId());
+		map.put("inIIB", isInIIB());
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		this.name              = (String) map.get("name");
-		this.type              = (String) map.get("type");
-		this.isLocal           = (Boolean) map.get("isLocal");
-		this.isParameter       = (Boolean) map.get("isParameter");
-		this.declaringMethodId = (String) map.get("declaringMethodId");
-		this.inIIB             = (Boolean) map.get("inIIB");
+		setName((String) map.get("name"));
+		setType((String) map.get("type"));
+		setLocal((Boolean) map.get("isLocal"));
+		setParameter((Boolean) map.get("isParameter"));
+		setDeclaringMethodId((String) map.get("declaringMethodId"));
+		setInIIB((Boolean) map.get("inIIB"));
 	}
 
 	public String getSymbolId() {
