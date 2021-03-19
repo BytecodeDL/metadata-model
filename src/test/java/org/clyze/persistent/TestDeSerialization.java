@@ -31,9 +31,12 @@ public class TestDeSerialization {
         Map<String, Object> map1 = jvmClass1.toMap();
         JvmClass jvmClass2 = new JvmClass();
         jvmClass2.fromMap(map1);
+        JvmClass jvmClass2_ = new JvmClass("class-2_");
+        jvmClass2_.fromMap(map1);
 
         assert jvmClass1.equals(jvmClass2);
         assert itemEquals(jvmClass1, jvmClass2);
+        assert jvmClass1.equals(jvmClass2_);
 
         JvmField jvmField1 = new JvmField(pos, sourceFileName, "name",
                 "symbolId", "type", "declaringClassId", true);
@@ -41,9 +44,12 @@ public class TestDeSerialization {
         jvmField1.setDeclaringClassId("declaring-class");
         JvmField jvmField2 = new JvmField();
         jvmField2.fromMap(jvmField1.toMap());
+        JvmField jvmField2_ = new JvmField("field-2_");
+        jvmField2_.fromMap(jvmField1.toMap());
 
         assert jvmField1.equals(jvmField2);
         assert itemEquals(jvmField1, jvmField2);
+        assert jvmField1.equals(jvmField2_);
 
         JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, "name",
                 "declaringClassId", "java.lang.String", "method-symbolId",
@@ -55,39 +61,52 @@ public class TestDeSerialization {
         jvmMethod1.setDeclaringClassId("declaring-class");
         JvmMethod jvmMethod2 = new JvmMethod();
         jvmMethod2.fromMap(jvmMethod1.toMap());
+        JvmMethod jvmMethod2_ = new JvmMethod("meth-2_");
+        jvmMethod2_.fromMap(jvmMethod1.toMap());
 
         assert jvmMethod1.equals(jvmMethod2);
+        assert jvmMethod1.equals(jvmMethod2_);
         assert itemEquals(jvmMethod1, jvmMethod2);
 
         Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, jvmClass1.getSymbolId(), UsageKind.TYPE);
         Usage class1Usage_ = new Usage();
         class1Usage_.fromMap(class1Usage.toMap());
-
         assert class1Usage.equals(class1Usage_);
+
+        class1Usage.setUsageKind(UsageKind.DATA_READ);
+        assert class1Usage.getUsageKind() == UsageKind.DATA_READ;
+        class1Usage.setUsageKind(UsageKind.TYPE);
+
+        Usage class1Usage__ = new Usage("123");
+        class1Usage__.fromMap(class1Usage.toMap());
+        assert class1Usage.equals(class1Usage__);
 
         Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, jvmField2.getSymbolId(), UsageKind.DATA_READ);
         Usage field1ReadUsage_ = new Usage();
         field1ReadUsage_.fromMap(field1ReadUsage.toMap());
-
         assert field1ReadUsage.equals(field1ReadUsage_);
 
         Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
         Usage field1WriteUsage_ = new Usage();
         field1WriteUsage_.fromMap(field1WriteUsage.toMap());
-
         assert field1WriteUsage.equals(field1WriteUsage_);
 
         Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
         Usage method1Usage_ = new Usage();
         method1Usage_.fromMap(method1Usage.toMap());
-
         assert method1Usage.equals(method1Usage_);
+
+        JvmStringConstant stringConst1 = new JvmStringConstant(new Position(10, 10, 10, 11), sourceFileName, "<A: String s>", "initial-value");
+        JvmStringConstant stringConst1_ = new JvmStringConstant();
+        stringConst1_.fromMap(stringConst1.toMap());
+        assert stringConst1.equals(stringConst1_);
 
         Configuration configuration = new Configuration(new Printer(true));
         JvmMetadata metadata = new JvmMetadata();
         metadata.jvmClasses.add(jvmClass1);
         metadata.jvmFields.add(jvmField1);
         metadata.jvmMethods.add(jvmMethod2);
+        metadata.jvmStringConstants.add(stringConst1);
         metadata.usages.add(class1Usage);
         metadata.usages.add(field1ReadUsage);
         metadata.usages.add(field1WriteUsage);
@@ -97,7 +116,7 @@ public class TestDeSerialization {
         String metadataPath = "build/test-jvm-metadata.json";
         try {
             Map<String, Object> map = serializeToJsonAndGetMap(reporter, metadataPath);
-            List<Map<String, Object>> jvmClasses = (List<Map<String, Object>>) map.get(JvmClass.class.getSimpleName());
+            @SuppressWarnings("unchecked") List<Map<String, Object>> jvmClasses = (List<Map<String, Object>>) map.get(JvmClass.class.getSimpleName());
             assert jvmClasses != null;
             assert mapEquals(map1, jvmClasses.get(0));
             JvmMetadata deserializedMetadata = JvmMetadata.fromMap(map);
@@ -105,7 +124,7 @@ public class TestDeSerialization {
             assert deserializedMetadata.jvmFields.size() == 1;
             assert deserializedMetadata.jvmMethods.size() == 1;
             assert deserializedMetadata.jvmHeapAllocations.size() == 0;
-            assert deserializedMetadata.jvmStringConstants.size() == 0;
+            assert deserializedMetadata.jvmStringConstants.size() == 1;
             assert deserializedMetadata.usages.size() == 4;
             assert deserializedMetadata.jvmInvocations.size() == 0;
             assert deserializedMetadata.jvmVariables.size() == 0;
@@ -133,9 +152,12 @@ public class TestDeSerialization {
         Function func1 = new Function(fPos, sourceFileName, "symbol-id", "func1", new String[] { "a", "b" }, fPos);
         Function func2 = new Function();
         func2.fromMap(func1.toMap());
+        Function func2_ = new Function("func-2_");
+        func2_.fromMap(func1.toMap());
 
         assert func1.equals(func2);
         assert itemEquals(func1, func2);
+        assert func1.equals(func2_);
 
         SourceMetadata elements = new SourceMetadata();
         elements.types.add(type1);
@@ -143,7 +165,7 @@ public class TestDeSerialization {
         SourceFileReporter reporter = new SourceFileReporter(getConfiguration(), elements);
         try {
             Map<String, Object> map = serializeToJsonAndGetMap(reporter, "build/test-metadata.json");
-            List<Map<String, Object>> types = (List<Map<String, Object>>) map.get(Type.class.getSimpleName());
+            @SuppressWarnings("unchecked") List<Map<String, Object>> types = (List<Map<String, Object>>) map.get(Type.class.getSimpleName());
             assert types != null;
             assert mapEquals(map1, types.get(0));
             SourceMetadata sourceMetadata = SourceMetadata.fromMap(map);
