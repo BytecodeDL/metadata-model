@@ -49,6 +49,7 @@ public class JvmMethod extends Function {
 
 	public JvmMethod(Position position,
 					 String sourceFileName,
+					 boolean source,
 					 String name,
 					 String declaringClassId,
 					 String returnType,
@@ -66,7 +67,7 @@ public class JvmMethod extends Function {
 					 boolean isProtected,
 					 boolean isPrivate,
 					 Position outerPosition) {
-		super(position, sourceFileName, symbolId, name, params, outerPosition);
+		super(position, sourceFileName, source, symbolId, name, params, outerPosition);
 		this.declaringClassId = declaringClassId;
 		this.returnType = returnType;		
 		this.paramTypes = paramTypes;

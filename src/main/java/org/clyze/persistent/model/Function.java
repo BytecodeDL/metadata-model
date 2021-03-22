@@ -34,9 +34,9 @@ public class Function extends AnnotatableSymbolWithId {
         this.id = id;
     }
 
-    public Function(Position position, String sourceFileName, String symbolId,
-                    String name, String[] params, Position outerPosition) {
-        super(position, sourceFileName, symbolId);
+    public Function(Position position, String sourceFileName, boolean source,
+                    String symbolId, String name, String[] params, Position outerPosition) {
+        super(position, sourceFileName, source, symbolId);
         this.name = name;
         this.params = params;
         this.outerPosition = outerPosition;

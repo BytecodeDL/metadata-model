@@ -29,13 +29,10 @@ public class JvmMethodInvocation extends SymbolWithId {
         this.id = id;
     }
 
-    public JvmMethodInvocation(Position position,
-                               String sourceFileName,
-                               String name,
-                               String symbolId,
-                               String invokingMethodId,
-                               boolean inIIB) {
-        super(position, sourceFileName, symbolId);
+    public JvmMethodInvocation(Position position, String sourceFileName,
+                               boolean source, String name, String symbolId,
+                               String invokingMethodId, boolean inIIB) {
+        super(position, sourceFileName, source, symbolId);
         this.name = name;
         this.invokingMethodId = invokingMethodId;
         this.inIIB = inIIB;

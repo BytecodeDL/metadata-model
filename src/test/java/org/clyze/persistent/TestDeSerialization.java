@@ -23,7 +23,7 @@ public class TestDeSerialization {
         String sourceFileName = "sourceFileName.java";
 
         Position pos = new Position(0, 1, 2, 3);
-        JvmClass jvmClass1 = new JvmClass(pos, sourceFileName, "name",
+        JvmClass jvmClass1 = new JvmClass(pos, sourceFileName, true, "name",
                 "packageName", "symbolId", false, false, false, false, false,
                 true, false, true, false, false);
         jvmClass1.setAnnotations(new HashSet<>(Arrays.asList("c-annotation1", "c-annotation2")));
@@ -38,7 +38,7 @@ public class TestDeSerialization {
         assert itemEquals(jvmClass1, jvmClass2);
         assert jvmClass1.equals(jvmClass2_);
 
-        JvmField jvmField1 = new JvmField(pos, sourceFileName, "name",
+        JvmField jvmField1 = new JvmField(pos, sourceFileName, false, "name",
                 "symbolId", "type", "declaringClassId", true);
         jvmField1.setAnnotations(new HashSet<>(Arrays.asList("f-annotation1", "f-annotation2")));
         jvmField1.setDeclaringClassId("declaring-class");
@@ -51,7 +51,7 @@ public class TestDeSerialization {
         assert itemEquals(jvmField1, jvmField2);
         assert jvmField1.equals(jvmField2_);
 
-        JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, "name",
+        JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, true, "name",
                 "declaringClassId", "java.lang.String", "method-symbolId",
                 new String[] { "param0", "param1" },
                 new String[] { "int", "java.lang.Integer" }, false, false,
@@ -68,7 +68,7 @@ public class TestDeSerialization {
         assert jvmMethod1.equals(jvmMethod2_);
         assert itemEquals(jvmMethod1, jvmMethod2);
 
-        Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, jvmClass1.getSymbolId(), UsageKind.TYPE);
+        Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, true, jvmClass1.getSymbolId(), UsageKind.TYPE);
         Usage class1Usage_ = new Usage();
         class1Usage_.fromMap(class1Usage.toMap());
         assert class1Usage.equals(class1Usage_);
@@ -81,22 +81,22 @@ public class TestDeSerialization {
         class1Usage__.fromMap(class1Usage.toMap());
         assert class1Usage.equals(class1Usage__);
 
-        Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, jvmField2.getSymbolId(), UsageKind.DATA_READ);
+        Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, true, jvmField2.getSymbolId(), UsageKind.DATA_READ);
         Usage field1ReadUsage_ = new Usage();
         field1ReadUsage_.fromMap(field1ReadUsage.toMap());
         assert field1ReadUsage.equals(field1ReadUsage_);
 
-        Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
+        Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, true, jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
         Usage field1WriteUsage_ = new Usage();
         field1WriteUsage_.fromMap(field1WriteUsage.toMap());
         assert field1WriteUsage.equals(field1WriteUsage_);
 
-        Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
+        Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, true, jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
         Usage method1Usage_ = new Usage();
         method1Usage_.fromMap(method1Usage.toMap());
         assert method1Usage.equals(method1Usage_);
 
-        JvmStringConstant stringConst1 = new JvmStringConstant(new Position(10, 10, 10, 11), sourceFileName, "<A: String s>", "initial-value");
+        JvmStringConstant stringConst1 = new JvmStringConstant(new Position(10, 10, 10, 11), sourceFileName, true, "<A: String s>", "initial-value");
         JvmStringConstant stringConst1_ = new JvmStringConstant();
         stringConst1_.fromMap(stringConst1.toMap());
         assert stringConst1.equals(stringConst1_);
@@ -140,7 +140,7 @@ public class TestDeSerialization {
     public void testLanguageAgnosticModel() {
         String sourceFileName = "sourceFileName.c";
         Position pos = new Position(0, 1, 2, 3);
-        Type type1 = new Type(pos, sourceFileName, "unique-symbolId", "name");
+        Type type1 = new Type(pos, sourceFileName, true, "unique-symbolId", "name");
         Type type2 = new Type();
         Map<String, Object> map1 = type1.toMap();
         type2.fromMap(map1);
@@ -149,7 +149,7 @@ public class TestDeSerialization {
         assert itemEquals(type1, type2);
 
         Position fPos = new Position(12, 23, 13, 24);
-        Function func1 = new Function(fPos, sourceFileName, "symbol-id", "func1", new String[] { "a", "b" }, fPos);
+        Function func1 = new Function(fPos, sourceFileName, true, "symbol-id", "func1", new String[] { "a", "b" }, fPos);
         Function func2 = new Function();
         func2.fromMap(func1.toMap());
         Function func2_ = new Function("func-2_");

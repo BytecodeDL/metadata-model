@@ -15,17 +15,25 @@ public abstract class Symbol extends Element {
     /** The source file name. */
     private String sourceFileName;
 
+    /**
+     * If true, this symbol appears in the sources. If false, this is a
+     * compiler-generated/synthetic element or it appears in binary dependencies.
+     */
+    private boolean source;
+
     /** No-arg constructor, use setters or fromMap() to populate the object. */
     public Symbol() {}
 
     /**
      * Create a symbol object.
-     * @param position The symbol position in the source code
-     * @param sourceFileName The source code file name
+     * @param position        the symbol position in the source code
+     * @param sourceFileName  the source code file name
+     * @param source          if false, the symbol is compiler-generated or external/binary
      */
-    public Symbol(Position position, String sourceFileName) {
+    public Symbol(Position position, String sourceFileName, boolean source) {
         this.position = position;
         this.sourceFileName = sourceFileName;
+        this.source = source;
     }
 
     public Position getPosition() {
@@ -44,6 +52,14 @@ public abstract class Symbol extends Element {
         this.sourceFileName = sourceFileName;
     }
 
+    public boolean isSource() {
+        return source;
+    }
+
+    public void setSource(boolean source) {
+        this.source = source;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -52,12 +68,13 @@ public abstract class Symbol extends Element {
 
         return super.equals(symbol)
             && Objects.equals(sourceFileName, symbol.sourceFileName)
-            && Objects.equals(position, symbol.position);
+            && Objects.equals(position, symbol.position)
+            && Objects.equals(source, symbol.source);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), sourceFileName, position);
+        return Objects.hash(super.hashCode(), sourceFileName, position, source);
     }
 
     protected static void putPosition(Map<String, Object> map, String key, Position position) {
@@ -87,6 +104,7 @@ public abstract class Symbol extends Element {
         super.saveTo(map);
         putPosition(map, "position", position);
         map.put("sourceFileName", sourceFileName);
+        map.put("source", isSource());
     }
 
     @Override
@@ -94,7 +112,8 @@ public abstract class Symbol extends Element {
         super.fromMap(map);
         Position position = fromPositionMap(map, "position");
         if (position != null)
-            this.position = position;
-        this.sourceFileName = (String) map.get("sourceFileName");
+            setPosition(position);
+        setSourceFileName((String) map.get("sourceFileName"));
+        setSource((boolean) map.get("source"));
     }
 }

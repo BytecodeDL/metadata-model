@@ -58,6 +58,7 @@ public class JvmClass extends Type {
 	
 	public JvmClass(Position position,
 					String sourceFileName,
+					boolean source,
 					String name,
 					String packageName,
 					String symbolId,
@@ -71,7 +72,7 @@ public class JvmClass extends Type {
 					boolean isPublic,
 					boolean isProtected,
 					boolean isPrivate) {
-		super(position, sourceFileName, symbolId, name);
+		super(position, sourceFileName, source, symbolId, name);
 		this.packageName = packageName;
 		this.isInterface = isInterface;
 		this.isEnum = isEnum;

@@ -11,8 +11,9 @@ public class AnnotatableSymbolWithId extends SymbolWithId {
 
     public AnnotatableSymbolWithId() {}
 
-    public AnnotatableSymbolWithId(Position position, String sourceFileName, String symbolId) {
-        super(position, sourceFileName, symbolId);
+    public AnnotatableSymbolWithId(Position position, String sourceFileName,
+                                   boolean source, String symbolId) {
+        super(position, sourceFileName, source, symbolId);
     }
 
     public Set<String> getAnnotations() {

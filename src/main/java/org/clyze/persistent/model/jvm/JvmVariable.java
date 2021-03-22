@@ -39,6 +39,7 @@ public class JvmVariable extends SymbolWithId {
 
 	public JvmVariable(Position position,
 					   String sourceFileName,
+					   boolean source,
 					   String name,
 					   String symbolId,
 					   String type,
@@ -46,7 +47,7 @@ public class JvmVariable extends SymbolWithId {
 					   boolean isLocal,
 					   boolean isParameter,
 					   boolean inIIB) {
-		super(position, sourceFileName, symbolId);
+		super(position, sourceFileName, source, symbolId);
 		this.name = name;
 		this.type = type;
 		this.declaringMethodId = declaringMethodId;

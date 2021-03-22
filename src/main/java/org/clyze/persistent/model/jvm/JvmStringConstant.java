@@ -49,14 +49,16 @@ public class JvmStringConstant extends Symbol {
      * Create a string constant object.
      * @param position         the source position
      * @param sourceFileName   the source file name
+     * @param source          if false, the symbol is compiler-generated or external/binary
      * @param fieldId          the id of the field initialized by this constant
      * @param value            the constant value
      */
     public JvmStringConstant(Position position,
                              String sourceFileName,
+                             boolean source,
                              String fieldId,
                              String value) {
-        super(position, sourceFileName);
+        super(position, sourceFileName, source);
         this.fieldId = fieldId;
         this.value = value;
     }

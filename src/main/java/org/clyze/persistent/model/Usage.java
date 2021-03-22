@@ -20,8 +20,9 @@ public class Usage extends SymbolWithId {
         this.id = id;
     }
 
-	public Usage(Position position, String sourceFileName, String symbolId, UsageKind usageKind) {
-		super(position, sourceFileName, symbolId);
+	public Usage(Position position, String sourceFileName, boolean source,
+                 String symbolId, UsageKind usageKind) {
+		super(position, sourceFileName, source, symbolId);
 		this.usageKind = usageKind;
 	}
 
