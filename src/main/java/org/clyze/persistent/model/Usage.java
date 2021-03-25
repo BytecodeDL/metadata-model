@@ -7,6 +7,8 @@ import java.util.Objects;
 public class Usage extends SymbolWithId {
     /** The kind of this usage. */
 	private UsageKind usageKind;
+	/** The id of the reference. */
+	private String referenceId;
 
     /** No-arg constructor, use setters or fromMap() to populate the object. */
     public Usage() {}
@@ -21,8 +23,9 @@ public class Usage extends SymbolWithId {
     }
 
 	public Usage(Position position, String sourceFileName, boolean source,
-                 String symbolId, UsageKind usageKind) {
+                 String symbolId, String referenceId, UsageKind usageKind) {
 		super(position, sourceFileName, source, symbolId);
+		this.referenceId = referenceId;
 		this.usageKind = usageKind;
 	}
 
@@ -34,6 +37,14 @@ public class Usage extends SymbolWithId {
         this.usageKind = usageKind;
     }
 
+    public String getReferenceId() {
+        return this.referenceId;
+    }
+
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -41,28 +52,32 @@ public class Usage extends SymbolWithId {
         Usage usage = (Usage) object;
 
         return super.equals(object)
-            && Objects.equals(usageKind, usage.usageKind);
+            && Objects.equals(usageKind, usage.usageKind)
+            && Objects.equals(referenceId, usage.referenceId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), usageKind);
+        return Objects.hash(super.hashCode(), usageKind, referenceId);
     }
 
     @Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
 		map.put("usageKind", getUsageKind().name());
+		map.put("referenceId", getReferenceId());
 	}
 
 	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
 		setUsageKind(UsageKind.valueOf((String)map.get("usageKind")));
+		setReferenceId((String)map.get("referenceId"));
 	}
 
     @Override
     public String toString() {
-        return "Usage[" + usageKind + "]: " + symbolId + "@" + getSourceFileName() + "/" + getPosition();
+        return "Usage[" + usageKind + "]: " + symbolId + "@" +
+                getSourceFileName() + "/" + getPosition() + "=>" + getReferenceId();
     }
 }

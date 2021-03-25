@@ -68,7 +68,7 @@ public class TestDeSerialization {
         assert jvmMethod1.equals(jvmMethod2_);
         assert itemEquals(jvmMethod1, jvmMethod2);
 
-        Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, true, jvmClass1.getSymbolId(), UsageKind.TYPE);
+        Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, true, "class1Usage", jvmClass1.getSymbolId(), UsageKind.TYPE);
         Usage class1Usage_ = new Usage();
         class1Usage_.fromMap(class1Usage.toMap());
         assert class1Usage.equals(class1Usage_);
@@ -81,17 +81,17 @@ public class TestDeSerialization {
         class1Usage__.fromMap(class1Usage.toMap());
         assert class1Usage.equals(class1Usage__);
 
-        Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, true, jvmField2.getSymbolId(), UsageKind.DATA_READ);
+        Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, true, "field1ReadUsage", jvmField2.getSymbolId(), UsageKind.DATA_READ);
         Usage field1ReadUsage_ = new Usage();
         field1ReadUsage_.fromMap(field1ReadUsage.toMap());
         assert field1ReadUsage.equals(field1ReadUsage_);
 
-        Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, true, jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
+        Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, true, "field1WriteUsage", jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
         Usage field1WriteUsage_ = new Usage();
         field1WriteUsage_.fromMap(field1WriteUsage.toMap());
         assert field1WriteUsage.equals(field1WriteUsage_);
 
-        Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, true, jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
+        Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, true, "method1Usage", jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
         Usage method1Usage_ = new Usage();
         method1Usage_.fromMap(method1Usage.toMap());
         assert method1Usage.equals(method1Usage_);
