@@ -30,6 +30,8 @@ java {
     withJavadocJar()
 }
 
+javadoc.options.addBooleanOption('Xdoclint:all', true)
+
 test {
     useJUnitPlatform()
 }

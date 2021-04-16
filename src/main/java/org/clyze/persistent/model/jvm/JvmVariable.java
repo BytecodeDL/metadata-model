@@ -5,10 +5,11 @@ import org.clyze.persistent.model.Position;
 import org.clyze.persistent.model.SymbolWithId;
 
 /**
- * This class models local variables in JVM methods. In bytecode, these
- * "variables" come from appropriate analysis of bytecode (such as Soot
- * and its Jimple IR). In the Dalvik Executable format (dex), these
- * "variables" come from the "registers" in the IR.
+ * This class models variables in JVM methods. These are either formal method
+ * parameters or local variables. In bytecode, these "local variables" come
+ * from appropriate analysis of bytecode (such as Soot and its Jimple IR). In
+ * the Dalvik Executable format (dex), these "variables" come from the
+ * "registers" in the IR.
  */
 public class JvmVariable extends SymbolWithId {
 
