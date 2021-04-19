@@ -2,6 +2,8 @@ package org.clyze.persistent.metadata.jvm;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.*;
+
+import org.clyze.persistent.model.SymbolAlias;
 import org.clyze.persistent.model.SymbolWithId;
 import org.clyze.persistent.model.Usage;
 import org.clyze.persistent.model.jvm.*;
@@ -27,6 +29,8 @@ public class JvmMetadata {
     public final Set<JvmHeapAllocation> jvmHeapAllocations = new HashSet<>();
     /** Usage information that connects code elements with their use. */
     public final Set<Usage> usages = new HashSet<>();
+    /** Alias information to account for elements appearing with many ids in some context. */
+    public final Set<SymbolAlias> aliases = new HashSet<>();
     /** String constants. */
     public final Set<JvmStringConstant> jvmStringConstants = new HashSet<>();
 
@@ -58,6 +62,7 @@ public class JvmMetadata {
         metadata.jvmHeapAllocations.addAll((List<JvmHeapAllocation>) map.get(JvmHeapAllocation.class.getSimpleName()));
         metadata.usages.addAll((List<Usage>) map.get(Usage.class.getSimpleName()));
         metadata.jvmStringConstants.addAll((List<JvmStringConstant>) map.get(JvmStringConstant.class.getSimpleName()));
+        metadata.aliases.addAll((List<SymbolAlias>) map.get(SymbolAlias.class.getSimpleName()));
         return metadata;
     }
 }

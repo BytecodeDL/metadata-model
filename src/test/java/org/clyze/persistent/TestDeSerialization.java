@@ -51,8 +51,8 @@ public class TestDeSerialization {
         assert itemEquals(jvmField1, jvmField2);
         assert jvmField1.equals(jvmField2_);
 
-        JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, true, "name",
-                "declaringClassId", "java.lang.String", "method-symbolId",
+        JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, true, "meth",
+                "A", "java.lang.String", "<A: java.lang.String meth(int,java.lang.Integer)>",
                 new String[] { "param0", "param1" },
                 new String[] { "int", "java.lang.Integer" }, false, false,
                 false, false, false, false, true, false, true, false,
@@ -101,16 +101,29 @@ public class TestDeSerialization {
         stringConst1_.fromMap(stringConst1.toMap());
         assert stringConst1.equals(stringConst1_);
 
+        JvmVariable var1 = new JvmVariable(new Position(11, 11, 12, 2), sourceFileName, true, "var1", jvmMethod1.getSymbolId() + "/var1", "java.lang.Object", jvmMethod1.getSymbolId(), true, false, false);
+        JvmVariable var1_ = new JvmVariable();
+        var1_.fromMap(var1.toMap());
+        assert var1.equals(var1_);
+
+        SymbolAlias alias1 = new SymbolAlias(sourceFileName, "var1-alias", var1.getSymbolId());
+        SymbolAlias alias1_ = new SymbolAlias();
+        alias1_.fromMap(alias1.toMap());
+        assert alias1.equals(alias1_);
+        System.out.println(alias1);
+
         Configuration configuration = new Configuration(new Printer(true));
         JvmMetadata metadata = new JvmMetadata();
         metadata.jvmClasses.add(jvmClass1);
         metadata.jvmFields.add(jvmField1);
         metadata.jvmMethods.add(jvmMethod2);
         metadata.jvmStringConstants.add(stringConst1);
+        metadata.jvmVariables.add(var1);
         metadata.usages.add(class1Usage);
         metadata.usages.add(field1ReadUsage);
         metadata.usages.add(field1WriteUsage);
         metadata.usages.add(method1Usage);
+        metadata.aliases.add(alias1);
         FileInfo fileInfo = new FileInfo("package.name", "inputName", "input/file/path", "test source", metadata);
         JvmFileReporter reporter = new JvmFileReporter(configuration, fileInfo);
         String metadataPath = "build/test-jvm-metadata.json";
@@ -127,7 +140,8 @@ public class TestDeSerialization {
             assert deserializedMetadata.jvmStringConstants.size() == 1;
             assert deserializedMetadata.usages.size() == 4;
             assert deserializedMetadata.jvmInvocations.size() == 0;
-            assert deserializedMetadata.jvmVariables.size() == 0;
+            assert deserializedMetadata.jvmVariables.size() == 1;
+            assert deserializedMetadata.aliases.size() == 1;
         } catch (Exception ex) {
             ex.printStackTrace();
         }

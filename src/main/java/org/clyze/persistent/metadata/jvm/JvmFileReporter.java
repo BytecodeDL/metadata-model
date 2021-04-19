@@ -39,6 +39,7 @@ public class JvmFileReporter extends FileReporter {
         configuration.printer.println("HeapAllocations: " + metadata.jvmHeapAllocations.size());
         configuration.printer.println("MethodInvocations: " + metadata.jvmInvocations.size());
         configuration.printer.println("Usages: " + metadata.usages.size());
+        configuration.printer.println("Aliases: " + metadata.aliases.size());
         configuration.printer.println("StringConstants: " + metadata.jvmStringConstants.size());
     }
 
@@ -55,7 +56,7 @@ public class JvmFileReporter extends FileReporter {
         jsonReport.put("JvmMethodInvocation", JvmMetadata.getSortedBySymbolId(metadata.jvmInvocations));
         jsonReport.put("JvmStringConstant", new ArrayList<>(metadata.jvmStringConstants));
         jsonReport.put("Usage", JvmMetadata.getSortedBySymbolId(metadata.usages));
+        jsonReport.put("SymbolAlias", JvmMetadata.getSortedBySymbolId(metadata.aliases));
         return jsonReport;
     }
-
 }
