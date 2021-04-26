@@ -9,10 +9,21 @@ import java.util.Map;
  * A method invocation site (in the body of another method).
  */
 public class JvmMethodInvocation extends SymbolWithId {
-
+    /** The name of the invoked method. */
     private String name;
-
+    /** The target type from where method look-up will start. */
+    public String targetType;
+    /** The static signature of the invoked method: return type. */
+    private String targetReturnType;
+    /** The static signature of the invoked method: parameter types. */
+    private String targetParamTypes;
+    /** The method containing this invocation site. */
     private String invokingMethodId;
+    /**
+     * The symbol id of the target method. Computing this field requires
+     * some form of static analysis.
+     */
+    public String targetMethodId = null;
 
     /** If true, this is inside an instance initializer block. */
     private boolean inIIB = false;
@@ -31,11 +42,16 @@ public class JvmMethodInvocation extends SymbolWithId {
 
     public JvmMethodInvocation(Position position, String sourceFileName,
                                boolean source, String name, String symbolId,
-                               String invokingMethodId, boolean inIIB) {
+                               String targetType, String targetReturnType,
+                               String targetParamTypes, String invokingMethodId,
+                               boolean inIIB) {
         super(position, sourceFileName, source, symbolId);
         this.name = name;
         this.invokingMethodId = invokingMethodId;
         this.inIIB = inIIB;
+        this.targetType = targetType;
+        this.targetReturnType = targetReturnType;
+        this.targetParamTypes = targetParamTypes;
     }
 
     public String getName() {
@@ -54,6 +70,38 @@ public class JvmMethodInvocation extends SymbolWithId {
         this.invokingMethodId = invokingMethodId;
     }
 
+    public String getTargetType() {
+        return this.targetType;
+    }
+
+    public void setTargetType(String targetType) {
+        this.targetType = targetType;
+    }
+
+    public String getTargetReturnType() {
+        return this.targetReturnType;
+    }
+
+    public void setTargetReturnType(String targetReturnType) {
+        this.targetReturnType = targetReturnType;
+    }
+
+    public String getTargetParamTypes() {
+        return this.targetParamTypes;
+    }
+
+    public void setTargetParamTypes(String targetParamTypes) {
+        this.targetParamTypes = targetParamTypes;
+    }
+
+    public String getTargetMethodId() {
+        return this.targetMethodId;
+    }
+
+    public void setTargetMethodId(String targetMethodId) {
+        this.targetMethodId = targetMethodId;
+    }
+
     public boolean isInIIB() {
         return inIIB;
     }
@@ -65,6 +113,10 @@ public class JvmMethodInvocation extends SymbolWithId {
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
         map.put("name", getName());
+        map.put("targetType", getTargetType());
+        map.put("targetReturnType", getTargetReturnType());
+        map.put("targetParamTypes", getTargetParamTypes());
+        map.put("targetMethodId", getTargetMethodId());
         map.put("invokingMethodId", getInvokingMethodId());
         map.put("inIIB", isInIIB());
     }
@@ -72,6 +124,10 @@ public class JvmMethodInvocation extends SymbolWithId {
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
         setName((String) map.get("name"));
+        setTargetType((String) map.get("targetType"));
+        setTargetReturnType((String) map.get("targetReturnType"));
+        setTargetParamTypes((String) map.get("targetParamTypes"));
+        setTargetMethodId((String) map.get("targetMethodId"));
         setInvokingMethodId((String) map.get("invokingMethodId"));
         setInIIB((Boolean) map.get("inIIB"));
     }
