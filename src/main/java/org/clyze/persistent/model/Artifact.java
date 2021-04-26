@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.HashSet;
 
-import org.clyze.persistent.model.ItemImpl;
-
 /**
  * A software artifact (jar, aar, etc) of a project.
  * 
@@ -14,6 +12,8 @@ import org.clyze.persistent.model.ItemImpl;
  */
 public class Artifact extends ItemImpl {
 
+	/** The suggested algorithm to use when computing checksums for artifacts. */
+	@SuppressWarnings("unused")
 	public static final String CHECKSUM_ALGORITHM = "SHA1";
 
 	protected String id;
@@ -26,19 +26,14 @@ public class Artifact extends ItemImpl {
 	protected final Set<String> packages;
 	protected String parentArtifactId;
 
-	public Artifact(String id, String name, ArtifactKind kind, boolean isDependency, String sourcesName, String checksum, long sizeInBytes) {
+	public Artifact(String id, String name, ArtifactKind kind, boolean isDependency,
+					String sourcesName, String checksum, long sizeInBytes) {
 		this(id, name, kind, isDependency, sourcesName, checksum, sizeInBytes, new HashSet<>(), null);
 	}	
 
-	public Artifact(String id, 
-					String name, 
-					ArtifactKind kind, 
-					boolean isDependency, 
-					String sourcesName, 
-					String checksum, 
-					long sizeInBytes, 
-					Set<String> packages,
-					String parentArtifactId) {
+	public Artifact(String id, String name, ArtifactKind kind, boolean isDependency,
+					String sourcesName, String checksum, long sizeInBytes,
+					Set<String> packages, String parentArtifactId) {
 		this.id = id;
 		this.name = name;
 		this.kind = kind;
@@ -52,28 +47,29 @@ public class Artifact extends ItemImpl {
 
 	@Override
 	protected void saveTo(Map<String, Object> map) {
-		map.put("id", this.id);
-		map.put("name",this.name);
+		map.put("id", getId());
+		map.put("name", getName());
 		map.put("kind", this.kind.name());
-		map.put("isDependency", this.isDependency);
-		map.put("sourcesName", this.sourcesName);
-		map.put("checksum", this.checksum);
-		map.put("sizeInBytes", this.sizeInBytes);
-		map.put("packages", this.packages);
-		map.put("parentArtifactId", this.parentArtifactId);
+		map.put("isDependency", isDependency());
+		map.put("sourcesName", getSourcesName());
+		map.put("checksum", getChecksum());
+		map.put("sizeInBytes", getSizeInBytes());
+		map.put("packages", getPackages());
+		map.put("parentArtifactId", getParentArtifactId());
 	}
 
 	@Override
 	public void fromMap(Map<String, Object> map){
-		this.id               = (String) map.get("id");
+		setId((String) map.get("id"));
 		this.name             = (String) map.get("name");
 		this.kind             = ArtifactKind.valueOf((String) map.get("kind"));
 		this.isDependency     = (Boolean) map.get("isDependency");
-		this.sourcesName      = (String) map.get("sourcesName");
-		this.checksum         = (String) map.get("checksum");
+		setSourcesName((String) map.get("sourcesName"));
+		setChecksum((String) map.get("checksum"));
 		this.sizeInBytes      = ((Number) map.get("sizeInBytes")).longValue();
+		//noinspection unchecked
 		this.packages.addAll((Collection<String>) map.get("packages"));
-		this.parentArtifactId = (String) map.get("parentArtifactId");
+		setParentArtifactId((String) map.get("parentArtifactId"));
 	}
 
 	@Override
@@ -99,7 +95,7 @@ public class Artifact extends ItemImpl {
 	}
 
 	public Set<String> getPackages() {
-		return packages;
+		return this.packages;
 	}
 
 	public void setParentArtifactId(String parentArtifactId) {
@@ -112,5 +108,21 @@ public class Artifact extends ItemImpl {
 
 	public long getSizeInBytes() {
 		return sizeInBytes;
+	}
+
+	public String getChecksum() {
+		return this.checksum;
+	}
+
+	public void setChecksum(String checksum) {
+		this.checksum = checksum;
+	}
+
+	public String getSourcesName() {
+		return this.sourcesName;
+	}
+
+	public void setSourcesName(String sourcesName) {
+		this.sourcesName = sourcesName;
 	}
 }

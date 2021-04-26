@@ -22,11 +22,15 @@ public class TestDeSerialization {
     public void testJvmModel() {
         String sourceFileName = "sourceFileName.java";
 
+        Artifact art1 = new Artifact("main-artifact", "test.jar", ArtifactKind.JAR, false, "test-sources.jar", "123", 1024);
+        Artifact art1_ = new Artifact(art1.getId(), art1.getName(), art1.getKind(), art1.isDependency(), art1.getSourcesName(), art1.getChecksum(), art1.getSizeInBytes(), new HashSet<>(), "parentId");
+
         Position pos = new Position(0, 1, 2, 3);
         JvmClass jvmClass1 = new JvmClass(pos, sourceFileName, true, "name",
                 "packageName", "symbolId", false, false, false, false, false,
                 true, false, true, false, false);
-        jvmClass1.setAnnotations(new HashSet<>(Arrays.asList("c-annotation1", "c-annotation2")));
+        Set<String> annotations = new HashSet<>(Arrays.asList("c-annotation1", "c-annotation2"));
+        jvmClass1.setAnnotations(annotations);
         jvmClass1.setDeclaringSymbolId("declaring-symbol");
         Map<String, Object> map1 = jvmClass1.toMap();
         JvmClass jvmClass2 = new JvmClass();
@@ -35,6 +39,7 @@ public class TestDeSerialization {
         jvmClass2_.fromMap(map1);
 
         assert jvmClass1.equals(jvmClass2);
+        assert annotations.equals(jvmClass2.getAnnotations());
         assert itemEquals(jvmClass1, jvmClass2);
         assert jvmClass1.equals(jvmClass2_);
 

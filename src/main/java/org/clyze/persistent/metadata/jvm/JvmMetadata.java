@@ -1,8 +1,6 @@
 package org.clyze.persistent.metadata.jvm;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.*;
-
 import org.clyze.persistent.model.SymbolAlias;
 import org.clyze.persistent.model.SymbolWithId;
 import org.clyze.persistent.model.Usage;
