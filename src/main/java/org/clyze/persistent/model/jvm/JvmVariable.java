@@ -130,4 +130,13 @@ public class JvmVariable extends SymbolWithId {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	@Override
+	public String toString() {
+		return "VAR-[" + getType() + " " + getName() + "]" +
+				"/isLocal=" + isLocal() +
+				"/isParameter=" + isParameter() +
+				"/symbolId=" + getSymbolId() +
+				"@" + getSourceFileName();
+	}
 }
