@@ -2,7 +2,7 @@ package org.clyze.persistent.model.jvm;
 
 import java.util.Map;
 import org.clyze.persistent.model.Position;
-import org.clyze.persistent.model.SymbolWithId;
+import org.clyze.persistent.model.Variable;
 
 /**
  * This class models variables in JVM methods. These are either formal method
@@ -11,18 +11,12 @@ import org.clyze.persistent.model.SymbolWithId;
  * the Dalvik Executable format (dex), these "variables" come from the
  * "registers" in the IR.
  */
-public class JvmVariable extends SymbolWithId {
+public class JvmVariable extends Variable {
 
-	private String name;
-
+	/** The type of the variable. */
 	private String type;
-
-	private boolean isLocal;
-
-	private boolean isParameter;
-
+	/** The id of the method declaring this variable. */
 	private String declaringMethodId;
-
 	/** True if this variable is inside an instance initializer block. */
 	private boolean inIIB = false;
 
@@ -48,41 +42,15 @@ public class JvmVariable extends SymbolWithId {
 					   boolean isLocal,
 					   boolean isParameter,
 					   boolean inIIB) {
-		super(position, sourceFileName, source, symbolId);
-		this.name = name;
+		super(position, sourceFileName, source, symbolId, name, isLocal, isParameter);
 		this.type = type;
 		this.declaringMethodId = declaringMethodId;
-		this.isLocal = isLocal;
-		this.isParameter = isParameter;
 		this.inIIB = inIIB;
 	}
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getType() {
         return type;
-    }
-
-    public boolean isLocal() {
-        return isLocal;
-    }
-
-    public void setLocal(boolean local) {
-        isLocal = local;
-    }
-
-    public boolean isParameter() {
-        return isParameter;
-    }
-
-    public void setParameter(boolean parameter) {
-        isParameter = parameter;
     }
 
     public String getDeclaringMethodId() {
@@ -104,10 +72,7 @@ public class JvmVariable extends SymbolWithId {
     @Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("name", getName());
 		map.put("type", getType());
-		map.put("isLocal", isLocal());
-		map.put("isParameter", isParameter());
 		map.put("declaringMethodId", getDeclaringMethodId());
 		map.put("inIIB", isInIIB());
 	}
@@ -115,10 +80,7 @@ public class JvmVariable extends SymbolWithId {
 	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		setName((String) map.get("name"));
 		setType((String) map.get("type"));
-		setLocal((Boolean) map.get("isLocal"));
-		setParameter((Boolean) map.get("isParameter"));
 		setDeclaringMethodId((String) map.get("declaringMethodId"));
 		setInIIB((Boolean) map.get("inIIB"));
 	}
