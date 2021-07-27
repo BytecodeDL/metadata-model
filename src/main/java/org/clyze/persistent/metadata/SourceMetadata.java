@@ -1,10 +1,9 @@
 package org.clyze.persistent.metadata;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.clyze.persistent.model.Function;
+import org.clyze.persistent.model.SourceFile;
 import org.clyze.persistent.model.Type;
 
 /**
@@ -12,9 +11,11 @@ import org.clyze.persistent.model.Type;
  */
 public class SourceMetadata {
     /** The declared source types. */
-    public final List<Type> types = new LinkedList<>();
+    public final List<Type> types = new ArrayList<>();
     /** The declared source functions. */
-    public final List<Function> functions = new LinkedList<>();
+    public final List<Function> functions = new ArrayList<>();
+    /** The source files (including empty ones). */
+    public final List<SourceFile> sourceFiles = new ArrayList<>();
 
     /**
      * Sort the metadata contents. This is useful for JSON output, as it
@@ -23,6 +24,7 @@ public class SourceMetadata {
     public void sort() {
         Collections.sort(types);
         Collections.sort(functions);
+        Collections.sort(sourceFiles);
     }
 
     /**
@@ -35,6 +37,7 @@ public class SourceMetadata {
         SourceMetadata metadata = new SourceMetadata();
         metadata.types.addAll((List<Type>) map.get(Type.class.getSimpleName()));
         metadata.functions.addAll((List<Function>) map.get(Function.class.getSimpleName()));
+        metadata.sourceFiles.addAll((List<SourceFile>) map.get(SourceFile.class.getSimpleName()));
         return metadata;
     }
 }

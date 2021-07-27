@@ -3,6 +3,9 @@ package org.clyze.persistent.metadata;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.clyze.persistent.model.Function;
+import org.clyze.persistent.model.SourceFile;
+import org.clyze.persistent.model.Type;
 
 /**
  * The reporter for language-agnostic metadata.
@@ -26,14 +29,16 @@ public class SourceFileReporter extends FileReporter {
     public void printReportStats() {
         configuration.printer.println("Types: " + metadata.types.size());
         configuration.printer.println("Functions: " + metadata.functions.size());
+        configuration.printer.println("Source files: " + metadata.sourceFiles.size());
     }
 
     @Override
     protected Map<String, List<?>> createJsonReport() {
         Map<String, List<?>> jsonReport = new HashMap<>();
         metadata.sort();
-        jsonReport.put("Type", metadata.types);
-        jsonReport.put("Function", metadata.functions);
+        jsonReport.put(Type.class.getSimpleName(), metadata.types);
+        jsonReport.put(Function.class.getSimpleName(), metadata.functions);
+        jsonReport.put(SourceFile.class.getSimpleName(), metadata.sourceFiles);
         return jsonReport;
     }
 }

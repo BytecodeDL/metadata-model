@@ -158,6 +158,16 @@ public class TestDeSerialization {
     @Test
     public void testLanguageAgnosticModel() {
         String sourceFileName = "sourceFileName.c";
+        String sourceFileId = "source-file-id-1";
+
+        SourceFile sourceFile1 = new SourceFile(sourceFileName, sourceFileId);
+        SourceFile sourceFile2 = new SourceFile();
+        Map<String, Object> mapSourceFile1 = sourceFile1.toMap();
+        sourceFile2.fromMap(mapSourceFile1);
+
+        assert sourceFile1.equals(sourceFile2);
+        assert itemEquals(sourceFile1, sourceFile2);
+
         Position pos = new Position(0, 1, 2, 3);
         Type type1 = new Type(pos, sourceFileName, true, "unique-symbolId", "name");
         Type type2 = new Type();
@@ -181,6 +191,7 @@ public class TestDeSerialization {
         SourceMetadata elements = new SourceMetadata();
         elements.types.add(type1);
         elements.functions.add(func1);
+        elements.sourceFiles.add(sourceFile1);
         SourceFileReporter reporter = new SourceFileReporter(getConfiguration(), elements);
         try {
             Map<String, Object> map = serializeToJsonAndGetMap(reporter, "build/test-metadata.json");
@@ -190,6 +201,7 @@ public class TestDeSerialization {
             SourceMetadata sourceMetadata = SourceMetadata.fromMap(map);
             assert sourceMetadata.functions.size() == 1;
             assert sourceMetadata.types.size() == 1;
+            assert sourceMetadata.sourceFiles.size() == 1;
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -24,6 +24,7 @@ public abstract class Element extends ItemImpl {
 		this.rootElemId = rootElemId;
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (this == object) return true;
 		if (!(object instanceof Element)) return false;
@@ -32,15 +33,18 @@ public abstract class Element extends ItemImpl {
 		return Objects.equals(rootElemId, element.rootElemId);
 	}
 
+	@Override
 	public int hashCode() {
 		return Objects.hash(rootElemId);
 	}
 
+	@Override
 	protected void saveTo(Map<String, Object> map) {		
 		//We don't serialize the id
 		map.put("rootElemId", rootElemId);
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		this.rootElemId = (String) map.get("rootElemId");
 	}
