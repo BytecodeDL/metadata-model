@@ -1,16 +1,15 @@
 package org.clyze.persistent.model.jvm;
 
-import org.clyze.persistent.model.AnnotatableSymbolWithId;
-import org.clyze.persistent.model.Position;
-
 import java.util.Map;
+import java.util.Objects;
+
+import org.clyze.persistent.model.Field;
+import org.clyze.persistent.model.Position;
 
 /**
  * A class field.
  */
-public class JvmField extends AnnotatableSymbolWithId {
-
-	private String name;
+public class JvmField extends Field {
 
 	private String type;
 
@@ -49,20 +48,11 @@ public class JvmField extends AnnotatableSymbolWithId {
                     String type,
                     String declaringClassId,
                     boolean isStatic) {
-		super(position, sourceFileName, source, symbolId);
-		this.name = name;
+		super(position, sourceFileName, source, name, symbolId);
 		this.type = type;
 		this.declaringClassId = declaringClassId;
 		this.isStatic = isStatic;
 	}    
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getType() {
         return type;
@@ -88,19 +78,34 @@ public class JvmField extends AnnotatableSymbolWithId {
         this.declaringClassId = declaringClassId;
     }
 
+    @Override
     protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("name", getName());
 		map.put("type", getType());
 		map.put("isStatic", isStatic());
 		map.put("declaringClassId", getDeclaringClassId());
 	}
 
+	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		setName((String) map.get("name"));
 		setType((String) map.get("type"));
 		setStatic((Boolean) map.get("isStatic"));
 		setDeclaringClassId((String) map.get("declaringClassId"));
 	}
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof JvmField)) return false;
+        JvmField field = (JvmField) that;
+        return super.equals(field) && Objects.equals(type, field.type)  &&
+                Objects.equals(isStatic, field.isStatic) &&
+                Objects.equals(declaringClassId, field.declaringClassId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), type, isStatic, declaringClassId);
+    }
 }

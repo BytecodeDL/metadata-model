@@ -177,6 +177,15 @@ public class TestDeSerialization {
         assert type1.equals(type2);
         assert itemEquals(type1, type2);
 
+        Position fieldPos = new Position(4, 1, 4, 2);
+        Field field1 = new Field(pos, sourceFileName, true, "field", "field-symbol-1");
+        Field field2 = new Field();
+        Map<String, Object> fieldMap1 = field1.toMap();
+        field2.fromMap(fieldMap1);
+
+        assert field1.equals(field2);
+        assert itemEquals(field1, field2);
+
         Position fPos = new Position(12, 23, 13, 24);
         Function func1 = new Function(fPos, sourceFileName, true, "symbol-id", "func1", new String[] { "a", "b" }, fPos);
         Function func2 = new Function();
