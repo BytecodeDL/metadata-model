@@ -30,7 +30,7 @@ public class SymbolAlias extends SymbolWithId {
      * @param originId          the original id ("method/x")
      */
     public SymbolAlias(String sourceFileName, String symbolId, String originId) {
-        super(null, sourceFileName, false, symbolId);
+        super(null, sourceFileName, sourceFileName != null, symbolId);
         this.originId = originId;
     }
 
