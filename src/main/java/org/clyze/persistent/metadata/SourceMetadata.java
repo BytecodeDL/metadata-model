@@ -7,7 +7,7 @@ import org.clyze.persistent.model.*;
 /**
  * A container class for all metadata gathered for a set of source files.
  */
-public class SourceMetadata {
+public class SourceMetadata implements TokenLocator {
     /** The declared source types. */
     public final List<Type> types = new ArrayList<>();
     /** The declared source fields. */
@@ -45,5 +45,19 @@ public class SourceMetadata {
         metadata.variables.addAll((List<Variable>) map.get(Variable.class.getSimpleName()));
         metadata.sourceFiles.addAll((List<SourceFile>) map.get(SourceFile.class.getSimpleName()));
         return metadata;
+    }
+
+    @Override
+    public Map<String, Collection<Position>> getTokenLocations() {
+        Map<String, Collection<Position>> res = new HashMap<>();
+        for (Type type : types)
+            addTokenWithLocation(res, type.getName(), type.getPosition());
+        for (Field field : fields)
+            addTokenWithLocation(res, field.getName(), field.getPosition());
+        for (Function function : functions)
+            addTokenWithLocation(res, function.getName(), function.getPosition());
+        for (Variable v : variables)
+            addTokenWithLocation(res, v.getName(), v.getPosition());
+        return res;
     }
 }

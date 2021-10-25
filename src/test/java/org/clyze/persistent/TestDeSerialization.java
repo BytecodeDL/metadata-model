@@ -147,9 +147,11 @@ public class TestDeSerialization {
             assert deserializedMetadata.jvmInvocations.size() == 0;
             assert deserializedMetadata.jvmVariables.size() == 1;
             assert deserializedMetadata.aliases.size() == 1;
+            assert deserializedMetadata.getTokenLocations().size() == metadata.getTokenLocations().size();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
     /**
@@ -211,6 +213,7 @@ public class TestDeSerialization {
             assert sourceMetadata.functions.size() == 1;
             assert sourceMetadata.types.size() == 1;
             assert sourceMetadata.sourceFiles.size() == 1;
+            assert sourceMetadata.getTokenLocations().size() == elements.getTokenLocations().size();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
