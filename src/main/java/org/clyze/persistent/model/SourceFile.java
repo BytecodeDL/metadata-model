@@ -58,4 +58,9 @@ public class SourceFile extends ItemImpl implements Comparable<SourceFile> {
     public int compareTo(SourceFile that) {
         return Comparator.comparing(SourceFile::getId).compare(this, that);
     }
+
+    @Override
+    public String toString() {
+        return this.id + ": " + this.path;
+    }
 }

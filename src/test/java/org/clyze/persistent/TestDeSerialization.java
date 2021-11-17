@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import org.clyze.persistent.metadata.*;
-import org.clyze.persistent.metadata.jvm.JvmFileReporter;
 import org.clyze.persistent.metadata.jvm.JvmMetadata;
 import org.clyze.persistent.model.*;
 import org.clyze.persistent.model.jvm.*;
@@ -129,8 +128,9 @@ public class TestDeSerialization {
         metadata.usages.add(field1WriteUsage);
         metadata.usages.add(method1Usage);
         metadata.aliases.add(alias1);
+        metadata.sourceFiles.add(new SourceFile("test/Path.java", "test-java-source-file"));
         FileInfo fileInfo = new FileInfo("package.name", "inputName", "input/file/path", "test source", metadata);
-        JvmFileReporter reporter = new JvmFileReporter(configuration, fileInfo);
+        FileReporter reporter = new FileReporter(configuration, fileInfo.getElements());
         String metadataPath = "build/test-jvm-metadata.json";
         try {
             Map<String, Object> map = serializeToJsonAndGetMap(reporter, metadataPath);
@@ -147,6 +147,7 @@ public class TestDeSerialization {
             assert deserializedMetadata.jvmInvocations.size() == 0;
             assert deserializedMetadata.jvmVariables.size() == 1;
             assert deserializedMetadata.aliases.size() == 1;
+            assert deserializedMetadata.sourceFiles.size() == 1;
             assert deserializedMetadata.getTokenLocations().size() == metadata.getTokenLocations().size();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -203,7 +204,7 @@ public class TestDeSerialization {
         elements.types.add(type1);
         elements.functions.add(func1);
         elements.sourceFiles.add(sourceFile1);
-        SourceFileReporter reporter = new SourceFileReporter(getConfiguration(), elements);
+        FileReporter reporter = new FileReporter(getConfiguration(), elements);
         try {
             Map<String, Object> map = serializeToJsonAndGetMap(reporter, "build/test-metadata.json");
             @SuppressWarnings("unchecked") List<Map<String, Object>> types = (List<Map<String, Object>>) map.get(Type.class.getSimpleName());

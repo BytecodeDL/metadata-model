@@ -8,25 +8,36 @@ import java.util.*;
 /**
  * This class provides utilities for writing the final JSON metadata files.
  */
-public abstract class FileReporter {
+public class FileReporter {
 
     /** The output configuration to use. */
     protected final Configuration configuration;
+    /** The metadata to be serialized. */
+    private final Metadata metadata;
 
     /**
      * Creates a new file reporter to use for generating metadata.
      * @param configuration   the output configuration to use
+     * @param metadata        the metadata object to use
      */
-    public FileReporter(Configuration configuration) {
+    public FileReporter(Configuration configuration, Metadata metadata) {
         this.configuration = configuration;
+        this.metadata = metadata;
     }
 
     /**
      * Prints a metadata report in the standard output.
      */
-    public abstract void printReportStats();
+    public void printReportStats() {
+        metadata.printReportStats(configuration.printer);
+    }
 
-    protected abstract Map<String, List<?>> createJsonReport();
+
+    protected Map<String, List<?>> createJsonReport() {
+        Map<String, List<?>> jsonReport = new HashMap<>();
+        metadata.populateJsonReport(jsonReport);
+        return jsonReport;
+    }
 
     /**
      * Writes the JSON metadata to the filesystem.
