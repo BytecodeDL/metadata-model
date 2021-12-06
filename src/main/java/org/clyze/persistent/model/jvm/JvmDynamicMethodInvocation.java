@@ -1,21 +1,10 @@
 package org.clyze.persistent.model.jvm;
 
 /** The model of "invokedynamic" instructions. */
+@SuppressWarnings("unused")
 public class JvmDynamicMethodInvocation {
     /**
-     * Creates an instruction ID for an invokedynamic that calls a
-     * lambda metafactory, passing it a method handle c::meth.
-     *
-     * @param c     method handle: class name
-     * @param meth  method handle: method name
-     * @return      the invokedynamic ID
-     */
-    public static String genId(String c, String meth) {
-        return "invokedynamic_" + c + "::" + meth;
-    }
-
-    /**
-     * Creates an instruction ID for a generic invokedynamic.
+     * Creates an instruction ID for a generic invokedynamic instruction.
      *
      * @param bootName     the simple name of the boot method
      * @param dynamicName  the simple name of the dynamic method
