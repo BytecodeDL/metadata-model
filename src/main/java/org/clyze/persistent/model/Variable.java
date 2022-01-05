@@ -37,8 +37,8 @@ public class Variable extends SymbolWithId {
     }
 
     public Variable(Position position, String sourceFileName, boolean source,
-                    String symbolId, String name, boolean isLocal, boolean isParameter) {
-        super(position, sourceFileName, source, symbolId);
+                    String artifactName, String symbolId, String name, boolean isLocal, boolean isParameter) {
+        super(position, sourceFileName, source, artifactName, symbolId);
         this.name = name;
         this.isLocal = isLocal;
         this.isParameter = isParameter;

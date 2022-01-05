@@ -11,9 +11,6 @@ import org.clyze.persistent.model.Type;
  */
 public class JvmClass extends Type {
 
-	/** The artifact name (e.g. foo-1.2.jar) */
-	private String artifactName;
-
 	private String packageName;
 
 	/**
@@ -59,6 +56,7 @@ public class JvmClass extends Type {
 	public JvmClass(Position position,
 					String sourceFileName,
 					boolean source,
+					String artifactName,
 					String name,
 					String packageName,
 					String symbolId,
@@ -72,7 +70,7 @@ public class JvmClass extends Type {
 					boolean isPublic,
 					boolean isProtected,
 					boolean isPrivate) {
-		super(position, sourceFileName, source, symbolId, name);
+		super(position, sourceFileName, source, artifactName, symbolId, name);
 		this.packageName = packageName;
 		this.isInterface = isInterface;
 		this.isEnum = isEnum;
@@ -93,14 +91,6 @@ public class JvmClass extends Type {
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
 	}	
-
-	public String getArtifactName() {
-		return artifactName;
-	}
-
-	public void setArtifactName(String artifactName) {
-		this.artifactName = artifactName;
-	}
 
 	public boolean isInterface() {
 		return isInterface;
@@ -209,7 +199,6 @@ public class JvmClass extends Type {
 	@Override
 	protected void saveTo(Map<String, Object> map) {
 		super.saveTo(map);
-		map.put("artifactName", getArtifactName());
 		map.put("packageName", getPackageName());
 		map.put("isInterface", isInterface());
 		map.put("isEnum", isEnum());
@@ -230,7 +219,6 @@ public class JvmClass extends Type {
 	@Override
 	public void fromMap(Map<String, Object> map){
 		super.fromMap(map);
-		setArtifactName((String) map.get("artifactName"));
 		setPackageName((String) map.get("packageName"));
 		setInterface((Boolean) map.get("isInterface"));
 		setEnum((Boolean) map.get("isEnum"));

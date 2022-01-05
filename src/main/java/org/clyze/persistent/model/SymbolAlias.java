@@ -26,11 +26,12 @@ public class SymbolAlias extends SymbolWithId {
      * Create an id alias, e.g. a variable "method/x" that code may refer to
      * as "method/r23".
      * @param sourceFileName    the name of the source file
+     * @param artifactName      the parent (file) artifact
      * @param symbolId          the symbol id of the alias ("method/r23")
      * @param originId          the original id ("method/x")
      */
-    public SymbolAlias(String sourceFileName, String symbolId, String originId) {
-        super(null, sourceFileName, sourceFileName != null, symbolId);
+    public SymbolAlias(String sourceFileName, String artifactName, String symbolId, String originId) {
+        super(null, sourceFileName, sourceFileName != null, artifactName, symbolId);
         this.originId = originId;
     }
 

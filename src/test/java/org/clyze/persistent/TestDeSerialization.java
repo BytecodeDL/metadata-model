@@ -20,12 +20,13 @@ public class TestDeSerialization {
     @Test
     public void testJvmModel() {
         String sourceFileName = "sourceFileName.java";
+        String artifactName = "test.jar";
 
-        Artifact art1 = new Artifact("main-artifact", "test.jar", ArtifactKind.JAR, false, "test-sources.jar", "123", 1024);
+        Artifact art1 = new Artifact("main-artifact", artifactName, ArtifactKind.JAR, false, "test-sources.jar", "123", 1024);
         Artifact art1_ = new Artifact(art1.getId(), art1.getName(), art1.getKind(), art1.isDependency(), art1.getSourcesName(), art1.getChecksum(), art1.getSizeInBytes(), new HashSet<>(), "parentId");
 
         Position pos = new Position(0, 1, 2, 3);
-        JvmClass jvmClass1 = new JvmClass(pos, sourceFileName, true, "name",
+        JvmClass jvmClass1 = new JvmClass(pos, sourceFileName, true, artifactName, "name",
                 "packageName", "symbolId", false, false, false, false, false,
                 true, false, true, false, false);
         Set<String> annotations = new HashSet<>(Arrays.asList("c-annotation1", "c-annotation2"));
@@ -42,7 +43,7 @@ public class TestDeSerialization {
         assert itemEquals(jvmClass1, jvmClass2);
         assert jvmClass1.equals(jvmClass2_);
 
-        JvmField jvmField1 = new JvmField(pos, sourceFileName, false, "name",
+        JvmField jvmField1 = new JvmField(pos, sourceFileName, false, artifactName, "name",
                 "symbolId", "type", "declaringClassId", true);
         jvmField1.setAnnotations(new HashSet<>(Arrays.asList("f-annotation1", "f-annotation2")));
         jvmField1.setDeclaringClassId("declaring-class");
@@ -55,7 +56,7 @@ public class TestDeSerialization {
         assert itemEquals(jvmField1, jvmField2);
         assert jvmField1.equals(jvmField2_);
 
-        JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, true, "meth",
+        JvmMethod jvmMethod1 = new JvmMethod(pos, sourceFileName, true, artifactName, "meth",
                 "A", "java.lang.String", "<A: java.lang.String meth(int,java.lang.Integer)>",
                 new String[] { "param0", "param1" },
                 new String[] { "int", "java.lang.Integer" }, false, false,
@@ -72,7 +73,7 @@ public class TestDeSerialization {
         assert jvmMethod1.equals(jvmMethod2_);
         assert itemEquals(jvmMethod1, jvmMethod2);
 
-        Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, true, "class1Usage", jvmClass1.getSymbolId(), UsageKind.TYPE);
+        Usage class1Usage = new Usage(new Position(5, 5, 8, 9), sourceFileName, true, artifactName, "class1Usage", jvmClass1.getSymbolId(), UsageKind.TYPE);
         Usage class1Usage_ = new Usage();
         class1Usage_.fromMap(class1Usage.toMap());
         assert class1Usage.equals(class1Usage_);
@@ -85,17 +86,17 @@ public class TestDeSerialization {
         class1Usage__.fromMap(class1Usage.toMap());
         assert class1Usage.equals(class1Usage__);
 
-        Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, true, "field1ReadUsage", jvmField2.getSymbolId(), UsageKind.DATA_READ);
+        Usage field1ReadUsage = new Usage(new Position(5, 5, 1, 2), sourceFileName, true, artifactName, "field1ReadUsage", jvmField2.getSymbolId(), UsageKind.DATA_READ);
         Usage field1ReadUsage_ = new Usage();
         field1ReadUsage_.fromMap(field1ReadUsage.toMap());
         assert field1ReadUsage.equals(field1ReadUsage_);
 
-        Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, true, "field1WriteUsage", jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
+        Usage field1WriteUsage = new Usage(new Position(5, 5, 4, 5), sourceFileName, true, artifactName, "field1WriteUsage", jvmField2.getSymbolId(), UsageKind.DATA_WRITE);
         Usage field1WriteUsage_ = new Usage();
         field1WriteUsage_.fromMap(field1WriteUsage.toMap());
         assert field1WriteUsage.equals(field1WriteUsage_);
 
-        Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, true, "method1Usage", jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
+        Usage method1Usage = new Usage(new Position(6, 6, 1, 2), sourceFileName, true, artifactName, "method1Usage", jvmMethod1.getSymbolId(), UsageKind.FUNCTION);
         Usage method1Usage_ = new Usage();
         method1Usage_.fromMap(method1Usage.toMap());
         assert method1Usage.equals(method1Usage_);
@@ -105,12 +106,12 @@ public class TestDeSerialization {
         stringConst1_.fromMap(stringConst1.toMap());
         assert stringConst1.equals(stringConst1_);
 
-        JvmVariable var1 = new JvmVariable(new Position(11, 11, 12, 2), sourceFileName, true, "var1", jvmMethod1.getSymbolId() + "/var1", "java.lang.Object", jvmMethod1.getSymbolId(), true, false, false);
+        JvmVariable var1 = new JvmVariable(new Position(11, 11, 12, 2), sourceFileName, true, artifactName, "var1", jvmMethod1.getSymbolId() + "/var1", "java.lang.Object", jvmMethod1.getSymbolId(), true, false, false);
         JvmVariable var1_ = new JvmVariable();
         var1_.fromMap(var1.toMap());
         assert var1.equals(var1_);
 
-        SymbolAlias alias1 = new SymbolAlias(sourceFileName, "var1-alias", var1.getSymbolId());
+        SymbolAlias alias1 = new SymbolAlias(sourceFileName, artifactName, "var1-alias", var1.getSymbolId());
         SymbolAlias alias1_ = new SymbolAlias();
         alias1_.fromMap(alias1.toMap());
         assert alias1.equals(alias1_);
@@ -128,7 +129,7 @@ public class TestDeSerialization {
         metadata.usages.add(field1WriteUsage);
         metadata.usages.add(method1Usage);
         metadata.aliases.add(alias1);
-        metadata.sourceFiles.add(new SourceFile("test/Path.java", "test-java-source-file"));
+        metadata.sourceFiles.add(new SourceFile(artifactName, "test/Path.java", "test-java-source-file"));
         FileInfo fileInfo = new FileInfo("package.name", "inputName", "input/file/path", "test source", metadata);
         FileReporter reporter = new FileReporter(configuration, fileInfo.getElements());
         String metadataPath = "build/test-jvm-metadata.json";
@@ -160,10 +161,11 @@ public class TestDeSerialization {
      */
     @Test
     public void testLanguageAgnosticModel() {
+        String artifactName = "sources.zip";
         String sourceFileName = "sourceFileName.c";
         String sourceFileId = "source-file-id-1";
 
-        SourceFile sourceFile1 = new SourceFile(sourceFileName, sourceFileId);
+        SourceFile sourceFile1 = new SourceFile(artifactName, sourceFileName, sourceFileId);
         SourceFile sourceFile2 = new SourceFile();
         Map<String, Object> mapSourceFile1 = sourceFile1.toMap();
         sourceFile2.fromMap(mapSourceFile1);
@@ -172,7 +174,7 @@ public class TestDeSerialization {
         assert itemEquals(sourceFile1, sourceFile2);
 
         Position pos = new Position(0, 1, 2, 3);
-        Type type1 = new Type(pos, sourceFileName, true, "unique-symbolId", "name");
+        Type type1 = new Type(pos, sourceFileName, true, artifactName, "unique-symbolId", "name");
         Type type2 = new Type();
         Map<String, Object> map1 = type1.toMap();
         type2.fromMap(map1);
@@ -181,7 +183,7 @@ public class TestDeSerialization {
         assert itemEquals(type1, type2);
 
         Position fieldPos = new Position(4, 1, 4, 2);
-        Field field1 = new Field(pos, sourceFileName, true, "field", "field-symbol-1");
+        Field field1 = new Field(pos, sourceFileName, true, artifactName, "field", "field-symbol-1");
         Field field2 = new Field();
         Map<String, Object> fieldMap1 = field1.toMap();
         field2.fromMap(fieldMap1);
@@ -190,7 +192,7 @@ public class TestDeSerialization {
         assert itemEquals(field1, field2);
 
         Position fPos = new Position(12, 23, 13, 24);
-        Function func1 = new Function(fPos, sourceFileName, true, "symbol-id", "func1", new String[] { "a", "b" }, fPos);
+        Function func1 = new Function(fPos, sourceFileName, true, artifactName, "symbol-id", "func1", new String[] { "a", "b" }, fPos);
         Function func2 = new Function();
         func2.fromMap(func1.toMap());
         Function func2_ = new Function("func-2_");

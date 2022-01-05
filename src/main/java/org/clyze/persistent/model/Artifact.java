@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * A software artifact (jar, aar, etc) of a project.
+ * A software artifact of a project (such as a JAR or AAR file).
  * 
  * The artifact refers either to an application or a dependency (isDependency) and has an ArtifactKind.
  */

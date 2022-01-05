@@ -34,6 +34,7 @@ public class JvmField extends Field {
      * @param position             the source position
      * @param sourceFileName       the source file
      * @param source               true if the field appears in source code
+     * @param artifactName         the name of the parent "artifact" file (such as a JAR file)
      * @param name                 the name of the field
      * @param symbolId             the unique symbol id
      * @param type                 the type of the field
@@ -43,12 +44,13 @@ public class JvmField extends Field {
 	public JvmField(Position position,
                     String sourceFileName,
                     boolean source,
+                    String artifactName,
                     String name,
                     String symbolId,
                     String type,
                     String declaringClassId,
                     boolean isStatic) {
-		super(position, sourceFileName, source, name, symbolId);
+		super(position, sourceFileName, source, artifactName, name, symbolId);
 		this.type = type;
 		this.declaringClassId = declaringClassId;
 		this.isStatic = isStatic;

@@ -8,6 +8,8 @@ import java.util.Objects;
  * A processed source file.
  */
 public class SourceFile extends ItemImpl implements Comparable<SourceFile> {
+    /** The name of the parent artifact. */
+    private String artifactName;
     /** The source file path. */
     private String path;
     /** The unique id of the file. */
@@ -16,9 +18,14 @@ public class SourceFile extends ItemImpl implements Comparable<SourceFile> {
     /** No-arg constructor, use setters or fromMap() to populate the object. */
     public SourceFile() {}
 
-    public SourceFile(String path, String id) {
+    public SourceFile(String artifactName, String path, String id) {
+        this.artifactName = artifactName;
         this.path = path;
         this.id = id;
+    }
+
+    public String getArtifactName() {
+        return this.artifactName;
     }
 
     public String getPath() {
@@ -44,12 +51,14 @@ public class SourceFile extends ItemImpl implements Comparable<SourceFile> {
 
     @Override
     protected void saveTo(Map<String, Object> map) {
+        map.put("artifactName", getArtifactName());
         map.put("path", getPath());
         map.put("id", getId());
     }
 
     @Override
     public void fromMap(Map<String, Object> map) {
+        this.artifactName = (String) map.get("artifactName");
         this.path = (String) map.get("path");
         this.id = (String) map.get("id");
     }

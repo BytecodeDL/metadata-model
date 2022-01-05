@@ -22,9 +22,9 @@ public class Usage extends SymbolWithId {
         this.id = id;
     }
 
-	public Usage(Position position, String sourceFileName, boolean source,
+	public Usage(Position position, String sourceFileName, boolean source, String artifactName,
                  String symbolId, String referenceId, UsageKind usageKind) {
-		super(position, sourceFileName, source, symbolId);
+		super(position, sourceFileName, source, artifactName, symbolId);
 		this.referenceId = referenceId;
 		this.usageKind = usageKind;
 	}

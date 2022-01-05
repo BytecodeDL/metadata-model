@@ -31,10 +31,10 @@ public class JvmHeapAllocation extends SymbolWithId {
     }
 
     public JvmHeapAllocation(Position position, String sourceFileName,
-                             boolean source, String symbolId,
+                             boolean source, String artifactName, String symbolId,
                              String allocatedTypeId, String allocatingMethodId,
                              boolean inIIB, boolean isArray) {
-        super(position, sourceFileName, source, symbolId);
+        super(position, sourceFileName, source, artifactName, symbolId);
         this.allocatedTypeId = allocatedTypeId;
         this.allocatingMethodId = allocatingMethodId;
         this.inIIB = inIIB;

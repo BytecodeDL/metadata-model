@@ -35,6 +35,7 @@ public class JvmVariable extends Variable {
 	public JvmVariable(Position position,
 					   String sourceFileName,
 					   boolean source,
+					   String artifactName,
 					   String name,
 					   String symbolId,
 					   String type,
@@ -42,7 +43,7 @@ public class JvmVariable extends Variable {
 					   boolean isLocal,
 					   boolean isParameter,
 					   boolean inIIB) {
-		super(position, sourceFileName, source, symbolId, name, isLocal, isParameter);
+		super(position, sourceFileName, source, artifactName, symbolId, name, isLocal, isParameter);
 		this.type = type;
 		this.declaringMethodId = declaringMethodId;
 		this.inIIB = inIIB;

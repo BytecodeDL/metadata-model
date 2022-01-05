@@ -24,9 +24,10 @@ public class Field extends AnnotatableSymbolWithId {
     public Field(Position position,
                     String sourceFileName,
                     boolean source,
+                    String artifactName,
                     String name,
                     String symbolId) {
-        super(position, sourceFileName, source, symbolId);
+        super(position, sourceFileName, source, artifactName, symbolId);
         this.name = name;
     }
 

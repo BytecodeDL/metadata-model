@@ -41,11 +41,11 @@ public class JvmMethodInvocation extends SymbolWithId {
     }
 
     public JvmMethodInvocation(Position position, String sourceFileName,
-                               boolean source, String name, String symbolId,
+                               boolean source, String artifactName, String name, String symbolId,
                                String targetType, String targetReturnType,
                                String targetParamTypes, String invokingMethodId,
                                boolean inIIB) {
-        super(position, sourceFileName, source, symbolId);
+        super(position, sourceFileName, source, artifactName, symbolId);
         this.name = name;
         this.invokingMethodId = invokingMethodId;
         this.inIIB = inIIB;

@@ -27,9 +27,10 @@ public class Type extends AnnotatableSymbolWithId {
     public Type(Position position,
                 String sourceFileName,
                 boolean source,
+                String artifactName,
                 String symbolId,
                 String name) {
-        super(position, sourceFileName, source, symbolId);
+        super(position, sourceFileName, source, artifactName, symbolId);
         this.name = name;
     }
 

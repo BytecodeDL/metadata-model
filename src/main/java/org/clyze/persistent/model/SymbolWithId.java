@@ -8,6 +8,10 @@ import java.util.Objects;
  * A symbol that has a unique id (for the whole program).
  */
 public abstract class SymbolWithId extends Symbol implements Comparable<SymbolWithId> {
+
+    /** The artifact name (e.g. foo-1.2.jar) */
+    private String artifactName;
+
     /** The unique id of this symbol. */
     protected String symbolId;
 
@@ -16,8 +20,10 @@ public abstract class SymbolWithId extends Symbol implements Comparable<SymbolWi
      */
     public SymbolWithId() {}
 
-    public SymbolWithId(Position position, String sourceFileName, boolean source, String symbolId) {
+    public SymbolWithId(Position position, String sourceFileName, boolean source,
+                        String artifactName, String symbolId) {
         super(position, sourceFileName, source);
+        this.artifactName = artifactName;
         this.symbolId = symbolId;
     }
 
@@ -27,6 +33,14 @@ public abstract class SymbolWithId extends Symbol implements Comparable<SymbolWi
 
     public void setSymbolId(String symbolId) {
         this.symbolId = symbolId;
+    }
+
+    public String getArtifactName() {
+        return artifactName;
+    }
+
+    public void setArtifactName(String artifactName) {
+        this.artifactName = artifactName;
     }
 
     @Override
@@ -51,11 +65,13 @@ public abstract class SymbolWithId extends Symbol implements Comparable<SymbolWi
     protected void saveTo(Map<String, Object> map) {
         super.saveTo(map);
         map.put("symbolId", getSymbolId());
+        map.put("artifactName", getArtifactName());
     }
 
     @Override
     public void fromMap(Map<String, Object> map){
         super.fromMap(map);
         setSymbolId((String) map.get("symbolId"));
+        setArtifactName((String) map.get("artifactName"));
     }
 }
