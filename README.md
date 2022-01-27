@@ -10,9 +10,10 @@ Currently, two metadata models are provided:
   supertypes). Example generators of such metadata are the
   [source-ir-fitter
   tool](https://github.com/plast-lab/source-ir-fitter/), [the Doop
-  Jimple parser](https://bitbucket.org/yanniss/doop), and the [Doop
-  javac plugin](https://bitbucket.org/yanniss/doop-jcplugin/). Doop is
-  also a consumer of such metadata, to allow for SARIF integration
+  Jimple parser](https://bitbucket.org/yanniss/doop), the [Doop
+  javac plugin](https://bitbucket.org/yanniss/doop-jcplugin/), and
+  the [Kotlin compiler plugin](https://github.com/efstratia-ev/KotlinCompilerPlugin).
+  Doop is also a consumer of such metadata, to allow for SARIF integration
   with IDEs.
 
 * Language-agnostic source code metadata that categorize source
