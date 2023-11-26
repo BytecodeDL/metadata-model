@@ -1,18 +1,11 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
-    id 'net.researchgate.release' version '2.6.0'
-    id 'com.jfrog.artifactory' version '4.24.21'
 }
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
 project.group = 'org.clyze'
-
-wrapper {
-    gradleVersion = '6.7'
-}
 
 repositories {
     mavenCentral()
@@ -28,60 +21,4 @@ dependencies {
 java {
     withSourcesJar()
     withJavadocJar()
-}
-
-javadoc.options.addBooleanOption('Xdoclint:all', true)
-
-test {
-    useJUnitPlatform()
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-}
-
-release {
-    //use defaults, see https://github.com/researchgate/gradle-release
-}
-
-afterReleaseBuild.dependsOn publish
-
-if (project.hasProperty('artifactory_user')) {
-    publishing {
-        repositories {
-            maven {
-                credentials {
-                    username artifactory_user
-                    password artifactory_password
-                }
-                //Always publish to the public releases repo
-                url "${artifactory_contextUrl}/libs-public-release-local"
-                allowInsecureProtocol true
-            }
-        }
-    }
-}
-
-// To configure, set jfrog_user/jfrog_password in [~/.gradle,.]/gradle.properties.
-// Upload with: ./gradlew artifactoryPublish
-artifactoryPublish {
-    skip = false //Skip build info analysis and publishing (false by default)
-    contextUrl = 'http://clyze.jfrog.io/artifactory'
-    publications ('mavenJava')
-    properties = ['qa.level': 'basic']
-    clientConfig.publisher.repoKey = 'default-maven-local'
-    clientConfig.publisher.username = jfrog_user
-    clientConfig.publisher.password = jfrog_password
-
-    // Minimum file size in KB for which the plugin performs checksum deploy optimization. Default: 10. Set to 0 to disable uploading files with checksum that already exists in Artifactory.
-    clientConfig.publisher.minChecksumDeploySizeKb = 10
 }
